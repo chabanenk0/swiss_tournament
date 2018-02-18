@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,6 +47,11 @@ class Player
     private $gender;
 
     /**
+     * @ORM\OneToMany(targetEntity="Participant", mappedBy="player")
+     */
+    private $participants;
+
+    /**
      * @ORM\Column(type="date", name="birth_date")
      */
     private $birthDate;
@@ -81,6 +87,11 @@ class Player
      * @ORM\Column(type="string", length=25)
      */
     private $email;
+
+    public function __construct()
+    {
+        $this->participants = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -264,5 +275,37 @@ class Player
     public function setEmail($email): void
     {
         $this->email = $email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParticipants()
+    {
+        return $this->participants;
+    }
+
+    /**
+     * @param mixed $participants
+     */
+    public function setParticipants($participants): void
+    {
+        $this->participants = $participants;
+    }
+
+    /**
+     * @param Participant $participant
+     */
+    public function addParticipant(Participant $participant)
+    {
+        $this->participants->add($participant);
+    }
+
+    /**
+     * @param Participant $participant
+     */
+    public function removeParticipant(Participant $participant)
+    {
+        $this->participants->removeElement($participant);
     }
 }

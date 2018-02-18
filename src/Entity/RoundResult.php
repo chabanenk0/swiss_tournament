@@ -29,17 +29,17 @@ class RoundResult
     private $round;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Player")
-     * @ORM\JoinColumn(name="white_player_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="Participant")
+     * @ORM\JoinColumn(name="white_participant_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $whitePlayer;
+    private $whiteParticipant;
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="Player")
-     * @ORM\JoinColumn(name="white_player_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="Participant")
+     * @ORM\JoinColumn(name="white_participant_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $blackPlayer;
+    private $blackParticipant;
 
     /**
      * time of game start.
@@ -115,35 +115,35 @@ class RoundResult
     }
 
     /**
-     * @return Player
+     * @return Participant
      */
-    public function getWhitePlayer(): Player
+    public function getWhiteParticipant(): Participant
     {
-        return $this->whitePlayer;
+        return $this->whiteParticipant;
     }
 
     /**
-     * @param Player $whitePlayer
+     * @param Participant $whiteParticipant
      */
-    public function setWhitePlayer(Player $whitePlayer): void
+    public function setWhiteParticipant(Participant $whiteParticipant): void
     {
-        $this->whitePlayer = $whitePlayer;
+        $this->whiteParticipant = $whiteParticipant;
     }
 
     /**
-     * @return Player
+     * @return Participant
      */
-    public function getBlackPlayer(): Player
+    public function getBlackParticipant(): Participant
     {
-        return $this->blackPlayer;
+        return $this->blackParticipant;
     }
 
     /**
-     * @param Player $blackPlayer
+     * @param Participant $blackParticipant
      */
-    public function setBlackPlayer($blackPlayer): void
+    public function setBlackParticipant(Participant $blackParticipant): void
     {
-        $this->blackPlayer = $blackPlayer;
+        $this->blackParticipant = $blackParticipant;
     }
 
     /**
