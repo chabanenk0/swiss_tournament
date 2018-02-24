@@ -21,4 +21,12 @@ class FirstMovesGroup
      * @ORM\Column(type="string", length=255)
      */
     private $name;
+
+    /**
+     * @param $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
 }

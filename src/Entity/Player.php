@@ -65,7 +65,7 @@ class Player
     const RANGE_GM = 6;
 
     /**
-     * @ORM\Column(type="integer", name="range")
+     * @ORM\Column(type="integer", name="rang")
      */
     private $range;
 

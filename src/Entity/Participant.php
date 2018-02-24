@@ -26,7 +26,7 @@ class Participant
     /**
      * @ORM\Column(type="integer", name="participant_order")
      */
-    private $particpantOrder;
+    private $participantOrder;
 
     /**
      * @ORM\OneToMany(targetEntity="Tournament", mappedBy="participant", cascade="remove")
@@ -59,15 +59,15 @@ class Participant
      */
     public function getParticpantOrder()
     {
-        return $this->particpantOrder;
+        return $this->participantOrder;
     }
 
     /**
      * @param mixed $particpantOrder
      */
-    public function setParticpantOrder($particpantOrder): void
+    public function setParticipantOrder($participantOrder): void
     {
-        $this->particpantOrder = $particpantOrder;
+        $this->participantOrder = $participantOrder;
     }
 
 
@@ -103,3 +103,4 @@ class Participant
         $this->tournaments->removeElement($tournament);
     }
 }
+
