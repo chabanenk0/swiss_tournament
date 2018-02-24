@@ -14,7 +14,7 @@ class RoundResult
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private $id = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="Tournament")
@@ -46,22 +46,22 @@ class RoundResult
      * Game start and end could be different with round start and end timestamp
      * @ORM\Column(type="bigint", name="begin_timestamp")
      */
-    private $startTimestamp;
+    private $startTimestamp = 0;
 
     /**
      * @ORM\Column(type="bigint", name="end_timestamp")
      */
-    private $endTimestamp;
+    private $endTimestamp = 0;
 
     /**
      * @ORM\Column(type="bigint", name="black_time_spent_in_seconds")
      */
-    private $blackTimeSpentInSeconds;
+    private $blackTimeSpentInSeconds = 0;
 
     /**
      * @ORM\Column(type="bigint", name="white_time_spent_in_seconds")
      */
-    private $whiteTimeSpentInSeconds;
+    private $whiteTimeSpentInSeconds = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="FirstMove")
@@ -73,6 +73,11 @@ class RoundResult
     const RESULT_BLACK_WIN = 0;
     const RESULT_DRAW = 1;
     const RESULT_WHITE_WIN = 2;
+
+    /**
+     * @ORM\Column(type="integer", nullable = true)
+     */
+    private $result = 0;
 
     /**
      * @return int
@@ -224,5 +229,21 @@ class RoundResult
     public function setFirstMove(FirstMove $firstMove): void
     {
         $this->firstMove = $firstMove;
+    }
+
+    /**
+     * @return int
+     */
+    public function getResult()
+    {
+        return $this->result;
+    }
+
+    /**
+     * @param int $result
+     */
+    public function setResult($result): void
+    {
+        $this->result = $result;
     }
 }

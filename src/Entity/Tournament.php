@@ -14,42 +14,42 @@ class Tournament
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private $id = 0;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private $title = '';
 
     /**
      * @ORM\Column(type="text")
      */
-    private $description;
+    private $description = '';
 
     /**
      * @ORM\Column(type="bigint", name="begin_timestamp")
      */
-    private $startTimestamp;
+    private $startTimestamp = 0;
 
     /**
      * @ORM\Column(type="bigint", name="end_timestamp")
      */
-    private $endTimestamp;
+    private $endTimestamp = 0;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $place;
+    private $place = '';
 
     /**
      * @ORM\Column(type="float", name="place_gps_x")
      */
-    private $placeGpsX;
+    private $placeGpsX = 0;
 
     /**
      * @ORM\Column(type="float", name="place_gps_y")
      */
-    private $placeGpsY;
+    private $placeGpsY = 0;
 
     /** Pairing system  constants */
     const PAIRING_SYSTEM_SWISS = 1;
@@ -58,12 +58,12 @@ class Tournament
     /**
      * @ORM\Column(type="integer", name="pairing_system")
      */
-    private $pairingSystem;
+    private $pairingSystem = 0;
 
     /**
      * @ORM\Column(type="integer", name="number_of_rounds")
      */
-    private $numberOfRounds;
+    private $numberOfRounds = 0;
 
     /** Tournament status constants */
     const STATUS_PLANNED = 0;
@@ -73,7 +73,7 @@ class Tournament
     /**
      * @ORM\Column(type="integer", name="status")
      */
-    private $status;
+    private $status = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="Round", mappedBy="tournament", cascade="remove")
