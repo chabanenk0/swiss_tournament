@@ -263,4 +263,12 @@ class Tournament
     {
         return $this->rounds;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->title;
+    }
 }

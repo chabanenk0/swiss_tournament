@@ -91,5 +91,9 @@ class Participant
         $this->tournament = $tournament;
     }
 
+    public function __toString()
+    {
+        return $this->tournament ? $this->tournament->getTitle() : 'undefined torunament participant';
+    }
 }
 

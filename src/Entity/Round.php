@@ -118,4 +118,12 @@ class Round
     {
         $this->endTimestamp = $endTimestamp;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return 'Round ' . $this->getNumber();
+    }
 }

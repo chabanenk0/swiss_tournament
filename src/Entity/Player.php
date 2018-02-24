@@ -186,7 +186,7 @@ class Player
      */
     public function getBirthDate(): \DateTime
     {
-        return new \DateTime($this->birthDate);
+        return $this->birthDate ?: new \DateTime();
     }
 
     /**
@@ -307,5 +307,13 @@ class Player
     public function removeParticipant(Participant $participant)
     {
         $this->participants->removeElement($participant);
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->lastName . ' ' . $this->firstName;
     }
 }
