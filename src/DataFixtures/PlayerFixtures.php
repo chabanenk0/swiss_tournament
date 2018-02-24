@@ -18,7 +18,7 @@ class PlayerFixtures extends Fixture
             $player->setFathersName('Fatherson'.$i);
             $player->setBirthDate($date);
             $player->setPhone('093117788'.$i);
-            $player->setGender(1);
+            $player->setGender(rand(1, 2));
             $player->setFederation('Federation'.$i);
             $player->setAvatarSrc('image');
             $player->setEmail('player'.$i.'@gmail.com');

@@ -17,7 +17,7 @@ class RoundFixtures extends Fixture implements DependentFixtureInterface
         $round->setTournament($tournament);
         $round->setStartTimestamp(10);
         $round->setEndTimestamp(250);
-        $this->addReference('Round');
+        $this->addReference('Round', $round);
 
         $manager->persist($round);
         $manager->flush();
