@@ -1,0 +1,25 @@
+easy_admin:
+    entities:
+        # List the entity class name you want to manage
+        Tournament:
+            class: App\Entity\Tournament
+            list:
+                    fields: ['id', 'title', 'description', 'startTimestamp', 'place']
+            form:
+                fields:
+                    - title
+                    - description
+                    - {property: 'startTimestamp', type: datetime}
+                    - endTimestamp
+                    - place
+                    - placeGpsX
+                    - placeGpsY
+                    - pairingSystem
+                    - numberOfRounds
+                    - {property: 'status', type: choice, type_options: {choices: {New: 0,inProgress: 1}}}
+        Player:
+           class: App\Entity\Player
+           #form:
+           #     fields:
+           #         - 'id'
+           #        - { property: 'email', type: 'email', label: 'Contact'   }
