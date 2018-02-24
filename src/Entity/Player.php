@@ -98,7 +98,7 @@ class Player
      */
     public function getId(): int
     {
-        return $this->id;
+        return (int) $this->id;
     }
 
     /**
@@ -106,7 +106,7 @@ class Player
      */
     public function getFirstName(): string
     {
-        return $this->firstName;
+        return (string) $this->firstName;
     }
 
     /**
@@ -122,7 +122,7 @@ class Player
      */
     public function getFathersName(): string
     {
-        return $this->fathersName;
+        return (string) $this->fathersName;
     }
 
     /**
@@ -138,7 +138,7 @@ class Player
      */
     public function getLastName(): string
     {
-        return $this->lastName;
+        return (string) $this->lastName;
     }
 
     /**
@@ -154,7 +154,7 @@ class Player
      */
     public function getAvatarSrc(): string
     {
-        return $this->avatarSrc;
+        return (string) $this->avatarSrc;
     }
 
     /**
@@ -170,7 +170,7 @@ class Player
      */
     public function getGender(): int
     {
-        return $this->gender;
+        return (int) $this->gender;
     }
 
     /**
@@ -184,9 +184,9 @@ class Player
     /**
      * @return string
      */
-    public function getBirthDate(): string
+    public function getBirthDate(): \DateTime
     {
-        return $this->birthDate;
+        return new \DateTime($this->birthDate);
     }
 
     /**
@@ -202,7 +202,7 @@ class Player
      */
     public function getRange(): int
     {
-        return $this->range;
+        return (int) $this->range;
     }
 
     /**
@@ -218,7 +218,7 @@ class Player
      */
     public function getCity(): string
     {
-        return $this->city;
+        return (string) $this->city;
     }
 
     /**
@@ -234,7 +234,7 @@ class Player
      */
     public function getFederation(): string
     {
-        return $this->federation;
+        return (string) $this->federation;
     }
 
     /**
@@ -250,7 +250,7 @@ class Player
      */
     public function getPhone(): string
     {
-        return $this->phone;
+        return (string) $this->phone;
     }
 
     /**
@@ -266,7 +266,7 @@ class Player
      */
     public function getEmail(): string
     {
-        return $this->email;
+        return (string) $this->email;
     }
 
     /**
