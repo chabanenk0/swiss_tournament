@@ -13,7 +13,7 @@ doctrine:
         charset: utf8mb4
 
         # With Symfony 3.3, remove the `resolve:` prefix
-        url: 'mysql://root:111@127.0.0.1:3306/swiss_tournament'
+        url: 'mysql://root:12345@127.0.0.1/swiss_tournament'
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
