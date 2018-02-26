@@ -29,7 +29,7 @@ class Participant
     private $participantOrder = 0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Player", inversedBy="participants", cascade="remove")
+     * @ORM\ManyToOne(targetEntity="Tournament")
      * @ORM\JoinColumn(name="tournament_id", referencedColumnName="id")
      */
     private $tournament;
