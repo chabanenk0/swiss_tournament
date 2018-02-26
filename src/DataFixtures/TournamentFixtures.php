@@ -17,10 +17,9 @@ class TournamentFixtures extends Fixture
             $tournament->setStatus(1);
             $tournament->setTitle('Title'.$i);
             $tournament->setDescription('Description'.$i);
-            $tournament->setEndTimestamp(123+$i);
+            $tournament->setEndTimestamp(100+$i);
             $tournament->setNumberOfRounds($i);
             $tournament->setPairingSystem(2);
-            $tournament->setId($i);
             $tournament->setPlace('Place'.$i);
             $tournament->setPlaceGpsX(23.01);
             $tournament->setPlaceGpsY(145.7);

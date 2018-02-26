@@ -24,6 +24,7 @@ class PlayerFixtures extends Fixture
             $player->setEmail('player'.$i.'@gmail.com');
             $player->setCity('Town'.$i);
             $player->setRange(5);
+            //$player->addParticipant();
 
             $this->addReference('Player'.$i, $player);
 
