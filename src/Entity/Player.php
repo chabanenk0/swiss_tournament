@@ -15,27 +15,27 @@ class Player
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private $id = 0;
 
     /**
      * @ORM\Column(type="string", length=100, name="first_name")
      */
-    private $firstName;
+    private $firstName = '';
 
     /**
-     * @ORM\Column(type="string", length=100, name="fathers_name")
+     * @ORM\Column(type="string", length=100, name="fathers_name", nullable=true)
      */
-    private $fathersName;
+    private $fathersName = '';
 
     /**
      * @ORM\Column(type="string", length=100, name="last_name")
      */
-    private $lastName;
+    private $lastName = '';
 
     /**
-     * @ORM\Column(type="string", length=255, name="avatar_src")
+     * @ORM\Column(type="string", length=255, name="avatar_src", nullable=true)
      */
-    private $avatarSrc;
+    private $avatarSrc = '';
 
     /** Gender constants */
     const GENDER_MALE = 1;
@@ -44,7 +44,7 @@ class Player
     /**
      * @ORM\Column(type="integer", name="gender")
      */
-    private $gender;
+    private $gender = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="Participant", mappedBy="player")
@@ -52,9 +52,9 @@ class Player
     private $participants;
 
     /**
-     * @ORM\Column(type="date", name="birth_date")
+     * @ORM\Column(type="date", name="birth_date", nullable=true)
      */
-    private $birthDate;
+    private $birthDate = '';
 
     /** Range (titul) constants */
     const RANGE_1_ROZRYAD = 1;
@@ -65,28 +65,28 @@ class Player
     const RANGE_GM = 6;
 
     /**
-     * @ORM\Column(type="integer", name="rang")
+     * @ORM\Column(type="integer", name="rang", nullable=true)
      */
-    private $range;
+    private $range = 0;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $city;
+    private $city = '';
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $federation;
+    private $federation = '';
 
     /**
-     * @ORM\Column(type="string", length=25)
+     * @ORM\Column(type="string", length=25, nullable=true)
      */
-    private $phone;
+    private $phone = '';
     /**
-     * @ORM\Column(type="string", length=25)
+     * @ORM\Column(type="string", length=25, nullable=true)
      */
-    private $email;
+    private $email = '';
 
     public function __construct()
     {
@@ -98,7 +98,7 @@ class Player
      */
     public function getId(): int
     {
-        return $this->id;
+        return (int) $this->id;
     }
 
     /**
@@ -106,7 +106,7 @@ class Player
      */
     public function getFirstName(): string
     {
-        return $this->firstName;
+        return (string) $this->firstName;
     }
 
     /**
@@ -122,7 +122,7 @@ class Player
      */
     public function getFathersName(): string
     {
-        return $this->fathersName;
+        return (string) $this->fathersName;
     }
 
     /**
@@ -138,7 +138,7 @@ class Player
      */
     public function getLastName(): string
     {
-        return $this->lastName;
+        return (string) $this->lastName;
     }
 
     /**
@@ -154,7 +154,7 @@ class Player
      */
     public function getAvatarSrc(): string
     {
-        return $this->avatarSrc;
+        return (string) $this->avatarSrc;
     }
 
     /**
@@ -170,7 +170,7 @@ class Player
      */
     public function getGender(): int
     {
-        return $this->gender;
+        return (int) $this->gender;
     }
 
     /**
@@ -184,9 +184,9 @@ class Player
     /**
      * @return string
      */
-    public function getBirthDate(): string
+    public function getBirthDate(): \DateTime
     {
-        return $this->birthDate;
+        return $this->birthDate ?: new \DateTime();
     }
 
     /**
@@ -202,7 +202,7 @@ class Player
      */
     public function getRange(): int
     {
-        return $this->range;
+        return (int) $this->range;
     }
 
     /**
@@ -218,7 +218,7 @@ class Player
      */
     public function getCity(): string
     {
-        return $this->city;
+        return (string) $this->city;
     }
 
     /**
@@ -234,7 +234,7 @@ class Player
      */
     public function getFederation(): string
     {
-        return $this->federation;
+        return (string) $this->federation;
     }
 
     /**
@@ -250,7 +250,7 @@ class Player
      */
     public function getPhone(): string
     {
-        return $this->phone;
+        return (string) $this->phone;
     }
 
     /**
@@ -266,7 +266,7 @@ class Player
      */
     public function getEmail(): string
     {
-        return $this->email;
+        return (string) $this->email;
     }
 
     /**
@@ -307,5 +307,13 @@ class Player
     public function removeParticipant(Participant $participant)
     {
         $this->participants->removeElement($participant);
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->lastName . ' ' . $this->firstName;
     }
 }

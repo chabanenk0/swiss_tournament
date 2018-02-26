@@ -20,7 +20,7 @@ class FirstMovesGroup
      * Group name
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $name = '';
 
     /**
      * @param $name
@@ -28,5 +28,13 @@ class FirstMovesGroup
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name;
     }
 }

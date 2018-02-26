@@ -16,13 +16,13 @@ class FirstMove
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private $id = 0;
 
     /**
      * Text description of the move (e2-e4 etc)
      * @ORM\Column(type="string", length=255)
      */
-    private $move;
+    private $move = '';
 
     /**
      * @ORM\ManyToOne(targetEntity="FirstMovesGroup")
