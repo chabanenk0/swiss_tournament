@@ -18,8 +18,20 @@ easy_admin:
                     - numberOfRounds
                     - {property: 'status', type: choice, type_options: {choices: {New: 0,inProgress: 1}}}
         Player:
-           class: App\Entity\Player
-           #form:
-           #     fields:
-           #         - 'id'
-           #        - { property: 'email', type: 'email', label: 'Contact'   }
+            class: App\Entity\Player
+            list:
+                fields: ['id', 'firstName', 'fathersName', 'lastName', 'avatarSrc', 'gender', 'birthDate']
+            form:
+                fields:
+                     - firstName
+                     - fathersName
+                     - lastName
+                     - avatarSrc
+                     - gender
+                     - birthDate
+                     - range
+                     - city
+                     - federation
+                     - phone
+                     - email
+

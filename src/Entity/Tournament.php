@@ -133,7 +133,7 @@ class Tournament
      */
     public function getStartTimestamp()
     {
-        return $this->startTimestamp;
+        return  $this->startTimestamp;
     }
 
     /**
