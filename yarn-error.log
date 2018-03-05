@@ -1,0 +1,36 @@
+Arguments: 
+  /usr/bin/nodejs /usr/share/yarn/bin/yarn.js add @symfony/webpack-encore --dev
+
+PATH: 
+  /home/aleks/bin:/home/aleks/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  4.2.6
+
+Platform: 
+  linux x64
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: Found incompatible module
+      at MessageError.Error (native)
+      at new MessageError (/usr/share/yarn/lib/cli.js:186:110)
+      at checkOne (/usr/share/yarn/lib/cli.js:62444:11)
+      at Object.check (/usr/share/yarn/lib/cli.js:62463:5)
+      at /usr/share/yarn/lib/cli.js:22803:73
+      at next (native)
+      at step (/usr/share/yarn/lib/cli.js:98:30)
+      at /usr/share/yarn/lib/cli.js:109:13
+      at run (/usr/share/yarn/lib/cli.js:100334:22)
+      at /usr/share/yarn/lib/cli.js:100347:28
