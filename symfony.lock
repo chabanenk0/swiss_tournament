@@ -56,7 +56,7 @@
     "doctrine/orm": {
         "version": "v2.6.0"
     },
-    "javiereguiluz/easyadmin-bundle": {
+    "easycorp/easyadmin-bundle": {
         "version": "1.17",
         "recipe": {
             "repo": "github.com/symfony/recipes",

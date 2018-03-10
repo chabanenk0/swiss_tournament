@@ -27,11 +27,10 @@ easy_admin:
                      - fathersName
                      - lastName
                      - avatarSrc
-                     - gender
+                     - { property: 'gender', type: choice, type_options: {choices: {Man: 0, Woman: 1}}}
                      - birthDate
                      - range
                      - city
                      - federation
-                     - phone
-                     - email
-
+                     - { property: 'phone', type: 'text'}
+                     - { property: 'email', type: 'email'}
