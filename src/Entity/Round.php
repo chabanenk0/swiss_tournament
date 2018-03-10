@@ -14,7 +14,7 @@ class Round
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private $id = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="Tournament")
@@ -25,19 +25,19 @@ class Round
     /**
      * @ORM\Column(type="integer")
      */
-    private $number;
+    private $number = 0;
 
     /**
      * time of round announcement.
      * Game start and end could be different with round start and end timestamp
      * @ORM\Column(type="bigint", name="begin_timestamp")
      */
-    private $startTimestamp;
+    private $startTimestamp = 0;
 
     /**
      * @ORM\Column(type="bigint", name="end_timestamp")
      */
-    private $endTimestamp;
+    private $endTimestamp = 0;
 
     /**
      * @return mixed
@@ -117,5 +117,13 @@ class Round
     public function setEndTimestamp(int $endTimestamp): void
     {
         $this->endTimestamp = $endTimestamp;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return 'Round ' . $this->getNumber();
     }
 }

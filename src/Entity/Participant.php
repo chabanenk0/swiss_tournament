@@ -26,17 +26,13 @@ class Participant
     /**
      * @ORM\Column(type="integer", name="participant_order")
      */
-    private $particpantOrder;
+    private $participantOrder = 0;
 
     /**
-     * @ORM\OneToMany(targetEntity="Tournament", mappedBy="participant", cascade="remove")
-          */
-    private $tournaments;
-
-    public function __construct()
-    {
-        $this->tournaments = new ArrayCollection();
-    }
+     * @ORM\ManyToOne(targetEntity="Tournament")
+     * @ORM\JoinColumn(name="tournament_id", referencedColumnName="id")
+     */
+    private $tournament;
 
     /**
      * @return int
@@ -59,15 +55,15 @@ class Participant
      */
     public function getParticpantOrder()
     {
-        return $this->particpantOrder;
+        return $this->participantOrder;
     }
 
     /**
      * @param mixed $particpantOrder
      */
-    public function setParticpantOrder($particpantOrder): void
+    public function setParticipantOrder($participantOrder): void
     {
-        $this->particpantOrder = $particpantOrder;
+        $this->participantOrder = $participantOrder;
     }
 
 
@@ -80,26 +76,24 @@ class Participant
     }
 
     /**
-     * @return ArrayCollection
+     * @return Tournament
      */
-    public function getTournaments()
+    public function getTournament()
     {
-        return $this->tournaments;
+        return $this->tournament;
     }
 
     /**
      * @param Tournament $tournament
      */
-    public function addTorunament(Tournament $tournament)
+    public function setTournament(Tournament $tournament)
     {
-        $this->tournaments->add($tournament);
+        $this->tournament = $tournament;
     }
 
-    /**
-     * @param Tournament $tournament
-     */
-    public function removeTournament(Tournament $tournament)
+    public function __toString()
     {
-        $this->tournaments->removeElement($tournament);
+        return $this->tournament ? $this->tournament->getTitle() : 'undefined torunament participant';
     }
 }
+
