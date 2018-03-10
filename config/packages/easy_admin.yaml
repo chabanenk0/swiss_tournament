@@ -9,8 +9,8 @@ easy_admin:
                 fields:
                     - title
                     - description
-                    - {property: 'startTimestamp', type: datetime}
-                    - endTimestamp
+                    - {property: 'startTimestamp', type: text}
+                    - {property: 'endTimestamp', type: text}
                     - place
                     - placeGpsX
                     - placeGpsY
