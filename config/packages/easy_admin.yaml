@@ -4,7 +4,7 @@ easy_admin:
         Tournament:
             class: App\Entity\Tournament
             list:
-                    fields: ['id', 'title', 'description', 'startTimestamp', 'place']
+                    fields: ['id', {property: 'title', type: 'url'}, 'description', 'startTimestamp', 'place']
             form:
                 fields:
                     - title
