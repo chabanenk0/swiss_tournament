@@ -1,2 +1,25 @@
-{% extends '@EasyAdmin/default/list.html.twig' %}
-echo
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Список учасників турніру:</h2>
+            {% set i = 0 %}
+            {% for participant in participants %}
+                {% set i = i + 1 %}
+                <br/>
+                <h3>{{ i }}.{{ participant.player }}</h3>
+            {% endfor %}
+        </div>
+        <div class="col-md-6">
+            <h2>Список гравців:</h2>
+            {% set i = 0 %}
+            {% for player in players %}
+                {% set i = i + 1 %}
+                <br/>
+                <h3>{{ i }}.{{ player.firstName }} {{ player.lastName }}</h3>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
+
+

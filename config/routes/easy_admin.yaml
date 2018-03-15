@@ -2,3 +2,11 @@ easy_admin_bundle:
     resource: '@EasyAdminBundle/Controller/AdminController.php'
     prefix: /admin
     type: annotation
+
+show_players:
+    path: admin/{title}
+    controller: App\Controller\Admin\TournamentController::showPlayers
+
+
+
+
