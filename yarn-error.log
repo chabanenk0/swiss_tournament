@@ -1,14 +1,14 @@
 Arguments: 
-  /usr/bin/node /usr/share/yarn/bin/yarn.js add --save alert.js
+  /usr/bin/nodejs /home/developer/www/2/node_modules/yarn/bin/yarn.js
 
 PATH: 
-  /home/aleks/bin:/home/aleks/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+  /home/developer/bin:/home/developer/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin:/opt/etcher-cli:/opt/etcher-cli
 
 Yarn version: 
   1.5.1
 
 Node version: 
-  8.9.4
+  4.2.6
 
 Platform: 
   linux x64
@@ -17,7 +17,7 @@ npm manifest:
   {
     "devDependencies": {
       "@symfony/webpack-encore": "^0.19.0",
-      "bootstrap": "3",
+      "bootstrap": "^4.0.0",
       "bootstrap-sass": "^3.3.7",
       "jquery": "^3.3.1"
     }
@@ -895,9 +895,9 @@ Lockfile:
     version "3.3.7"
     resolved "https://registry.yarnpkg.com/bootstrap-sass/-/bootstrap-sass-3.3.7.tgz#6596c7ab40f6637393323ab0bc80d064fc630498"
   
-  bootstrap@3:
-    version "3.3.7"
-    resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-3.3.7.tgz#5a389394549f23330875a3b150656574f8a9eb71"
+  bootstrap@^4.0.0:
+    version "4.0.0"
+    resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.0.0.tgz#ceb03842c145fcc1b9b4e15da2a05656ba68469a"
   
   brace-expansion@^1.1.7:
     version "1.1.11"
@@ -5279,14 +5279,14 @@ Lockfile:
       window-size "0.1.0"
 
 Trace: 
-  Error: Missing list of packages to add to your project.
-      at new MessageError (/usr/share/yarn/lib/cli.js:186:110)
-      at Object.<anonymous> (/usr/share/yarn/lib/cli.js:40587:13)
-      at Generator.next (<anonymous>)
-      at step (/usr/share/yarn/lib/cli.js:98:30)
-      at /usr/share/yarn/lib/cli.js:116:14
-      at new Promise (<anonymous>)
-      at new F (/usr/share/yarn/lib/cli.js:23451:28)
-      at Object.<anonymous> (/usr/share/yarn/lib/cli.js:95:12)
-      at Object.run (/usr/share/yarn/lib/cli.js:40599:19)
-      at run (/usr/share/yarn/lib/cli.js:89113:20)
+  Error: Found incompatible module
+      at MessageError.Error (native)
+      at new MessageError (/home/developer/www/2/node_modules/yarn/lib/cli.js:186:110)
+      at checkOne (/home/developer/www/2/node_modules/yarn/lib/cli.js:62444:11)
+      at Object.check (/home/developer/www/2/node_modules/yarn/lib/cli.js:62463:5)
+      at /home/developer/www/2/node_modules/yarn/lib/cli.js:22803:73
+      at next (native)
+      at step (/home/developer/www/2/node_modules/yarn/lib/cli.js:98:30)
+      at /home/developer/www/2/node_modules/yarn/lib/cli.js:109:13
+      at run (/home/developer/www/2/node_modules/yarn/lib/cli.js:100334:22)
+      at /home/developer/www/2/node_modules/yarn/lib/cli.js:100347:28
