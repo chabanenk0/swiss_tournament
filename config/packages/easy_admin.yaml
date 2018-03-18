@@ -4,19 +4,20 @@ easy_admin:
         Tournament:
             class: App\Entity\Tournament
             list:
-                    fields: ['id', {property: 'title', type: 'url'}, 'description', 'startTimestamp', 'place']
+                    fields: ['id', {property: 'title', type: 'url'}, 'description', { property: 'startTimestamp', type: 'datetime', format: 'd/m/Y H:i:s'  }, 'place']
+
             form:
                 fields:
                     - title
                     - description
-                    - {property: 'startTimestamp', type: text}
-                    - {property: 'endTimestamp', type: text}
+                    - { property: 'startTimestamp', type: datetime, type_options: { input: timestamp, widget: choice }} 
+                    - { property: 'endTimestamp', type: datetime, type_options: { input: timestamp, widget: choice }}
                     - place
                     - placeGpsX
                     - placeGpsY
-                    - pairingSystem
+                    - { property: 'pairingSystem', type: choice,  type_options: { choices: { SWISS: 0, ROUND: 1 }}}
                     - numberOfRounds
-                    - {property: 'status', type: choice, type_options: {choices: {New: 0,inProgress: 1}}}
+                    - { property: 'status', type: choice, type_options: { choices: { New: 0, inProgress: 1, Completed: 2 }}}
         Player:
             class: App\Entity\Player
             list:
@@ -27,10 +28,10 @@ easy_admin:
                      - fathersName
                      - lastName
                      - avatarSrc
-                     - { property: 'gender', type: choice, type_options: {choices: {Man: 0, Woman: 1}}}
-                     - birthDate
-                     - range
-                     - city
+                     - { property: 'gender', type: choice, type_options: { choices: { Male: 0, Female: 1 }}}
+                     - { property: 'birthDate', type: birthday }
+                     - { property: 'range', type: choice, type_options: { choices: { 3_ROZRYAD: 0,  2_ROZRYAD : 1, 1_ROZRYAD : 2, KMS : 3, MS: 4, GM: 5 }}}
+                     - city        
                      - federation
                      - { property: 'phone', type: 'text'}
                      - { property: 'email', type: 'email'}
