@@ -1,0 +1,6 @@
+{% if view == 'show' %}
+    <a target="_blank" href="{{ value }}">{{ value }}</a>
+{% else %}
+    <a target="_self" href="{{ path('add_players_tournament', {'id': value}) }}">{{ item.title }}</a>
+{% endif %}
+

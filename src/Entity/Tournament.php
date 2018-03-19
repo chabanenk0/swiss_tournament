@@ -80,6 +80,10 @@ class Tournament
      */
     private $rounds;
 
+    public function getLink() {
+        return $this->id;
+    }
+
     /**
      * @return mixed
      */

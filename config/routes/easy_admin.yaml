@@ -3,9 +3,9 @@ easy_admin_bundle:
     prefix: /admin
     type: annotation
 
-show_players:
-    path: admin/{title}
-    controller: App\Controller\Admin\TournamentController::showPlayers
+add_players_tournament:
+    path: admin/tournament/{id}
+    controller: App\Controller\Admin\TournamentController::addPlayersTournamentAction
 
 
 
