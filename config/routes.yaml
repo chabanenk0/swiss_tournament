@@ -1,3 +1,9 @@
 index:
     path: /
     controller: App\Controller\MainController::index
+
+show_tournaments:
+    path: /tournaments/{statusSlug}
+    controller: App\Controller\MainController::showAllTournamentsAction
+    defaults:
+        statusSlug: 'all'
