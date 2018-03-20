@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block main_content %}
+
+    {% macro render_item(statusSlug, title) %}
+        {% set is_active = app.request.get('statusSlug', 'all') ==  statusSlug %}
+
+        <a class="btn btn-outline-primary {% if is_active %} active {% endif %}"
+           href="{{ path('show_tournaments',{'statusSlug':statusSlug}) }}">
+            <span> {{ title }}</span>
+        </a>
+    {% endmacro %}
+
+    {% import _self as this %}
+
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        {{ this.render_item('all', 'Всi') }}
+        {{ this.render_item('planned', 'Новi') }}
+        {{ this.render_item('in_progress', 'Поточнi') }}
+        {{ this.render_item('completed', 'Завершенi') }}
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Start</th>
+            <th scope="col">End</th>
+            <th scope="col">Place</th>
+            <th scope="col">Place GpsX</th>
+            <th scope="col">Place GpsY</th>
+            <th scope="col">Pairing system</th>
+            <th scope="col">Number of rounds</th>
+            <th scope="col">Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for tournament in tournaments %}
+            {{ include('tournament/show.html.twig',{'tournament':tournament}) }}
+        {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock main_content %}

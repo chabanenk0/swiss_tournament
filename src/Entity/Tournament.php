@@ -70,6 +70,12 @@ class Tournament
     const STATUS_IN_PROGRESS = 1;
     const STATUS_COMPLETED = 2;
 
+    const STATUS_SLUGS = [
+      'planned'=> self::STATUS_PLANNED,
+      'in_progress'=> self::STATUS_IN_PROGRESS,
+      'completed'=> self::STATUS_COMPLETED,
+    ];
+
     /**
      * @ORM\Column(type="integer", name="status")
      */

@@ -1,0 +1,22 @@
+<tr>
+    <td>{{ tournament.id }}</td>
+    <td>{{ tournament.title }}</td>
+    <td>{{ tournament.description }}</td>
+    <td>{{ tournament.startTimestamp|date('Y-m-d H:i:s') }}</td>
+    <td>{{ tournament.endTimestamp|date('Y-m-d H:i:s') }}</td>
+    <td>{{ tournament.place }}</td>
+    <td>{{ tournament.placeGpsX }}</td>
+    <td>{{ tournament.placeGpsY }}</td>
+    <td>{{ tournament.pairingSystem }}</td>
+    <td>{{ tournament.numberOfRounds }}</td>
+    <td>
+        {% if tournament.status == 0 %}
+            <span class="badge badge-success">planned</span>
+        {% elseif tournament.status == 1 %}
+            <span class="badge badge-info">in progress</span>
+        {% elseif tournament.status == 2 %}
+            <span class="badge badge-secondary">completed</span>
+        {% endif %}
+    </td>
+</tr>
+
