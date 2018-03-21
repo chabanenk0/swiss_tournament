@@ -11,34 +11,34 @@ use Symfony\Component\HttpFoundation\Request;
 
 class TournamentController extends Controller
 {
-    public function showPlayers(Request $request, $title)
+    public function addPlayersTournamentAction(Request $request, $id)
     {
         $players = $this->getDoctrine()->getRepository(Player::class)->findAll();
-
-        $tournament = $this->getDoctrine()->getRepository(Tournament::class)->findBy(['title' => $title]);
-        foreach ($tournament as $item) {
-            $tournamentId = $item->getId();
-            $tournament = $item;
+        $formOptions = [];
+        foreach ($players as $player) {
+            $formOptions[$player->getFirstName()." ".$player->getLastName()] = $player->getId();
         }
+
+        $tournament = $this->getDoctrine()->getRepository(Tournament::class)->find($id);
+        $tournamentId = $tournament->getId();
         $participants = $this->getDoctrine()->getRepository(Participant::class)->findBy(['tournament' => $tournamentId]);
-        $form = $this->createForm(AddParticipantType::class);
+
+        $form = $this->createForm(AddParticipantType::class, null, ['data' => $formOptions]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $playerId = $request->request->get('player_id');
-            $player = $this->getDoctrine()->getRepository(Player::class)->find($playerId);
+            $playerId = $request->request->get('add_participant');
+            $player = $this->getDoctrine()->getRepository(Player::class)->find($playerId['Players']);
             $participant = new Participant();
             $participant->setPlayer($player);
             $participant->setTournament($tournament);
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($participant);
             $em->flush();
-
         }
 
         return $this->render('admin/players.html.twig', [
-            'participants' => $participants,
             'players' => $players,
+            'participants' => $participants,
             'form' => $form->createView(),
         ]);
     }
