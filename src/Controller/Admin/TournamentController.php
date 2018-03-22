@@ -13,15 +13,23 @@ class TournamentController extends Controller
 {
     public function addPlayersTournamentAction(Request $request, $id)
     {
+        $tournament = $this->getDoctrine()->getRepository(Tournament::class)->find($id);
+        $participants = $this->getDoctrine()->getRepository(Participant::class)->findBy(['tournament' => $id]);
+
         $players = $this->getDoctrine()->getRepository(Player::class)->findAll();
         $formOptions = [];
         foreach ($players as $player) {
-            $formOptions[$player->getFirstName()." ".$player->getLastName()] = $player->getId();
+            $ready = false;
+            foreach ($participants as $participant) {
+                if ($player->getId() == $participant->getPlayer()->getId()) {
+                    $ready = true;
+                    break;
+                }
+            }
+            if (!$ready) {
+                $formOptions[$player->getFirstName()." ".$player->getLastName()] = $player->getId();
+            }
         }
-
-        $tournament = $this->getDoctrine()->getRepository(Tournament::class)->find($id);
-        $tournamentId = $tournament->getId();
-        $participants = $this->getDoctrine()->getRepository(Participant::class)->findBy(['tournament' => $tournamentId]);
 
         $form = $this->createForm(AddParticipantType::class, null, ['data' => $formOptions]);
         $form->handleRequest($request);
@@ -34,6 +42,9 @@ class TournamentController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($participant);
             $em->flush();
+
+            return $this->redirectToRoute('add_players_tournament', ['id' => $id]);
+
         }
 
         return $this->render('admin/players.html.twig', [
