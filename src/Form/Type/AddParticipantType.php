@@ -14,6 +14,9 @@ class AddParticipantType extends AbstractType
         $builder
             ->add('Players', ChoiceType::class, [
                 'choices' => $options['data'],
+                'attr' => [
+                    'class' => 'state js-example-basic-single'
+                ],
             ])
             ->add('Add', SubmitType::class, [
                 'label' => 'Додати',
