@@ -2,6 +2,7 @@
 
 ###> symfony/framework-bundle ###
 .env
+yarn-error.log
 /public/bundles/
 /var/
 /vendor/

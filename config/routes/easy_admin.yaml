@@ -2,3 +2,11 @@ easy_admin_bundle:
     resource: '@EasyAdminBundle/Controller/AdminController.php'
     prefix: /admin
     type: annotation
+
+add_players_tournament:
+    path: admin/tournament/{id}
+    controller: App\Controller\Admin\TournamentController::addPlayersTournamentAction
+
+
+
+
