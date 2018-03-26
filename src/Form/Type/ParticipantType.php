@@ -51,7 +51,7 @@ class ParticipantType extends AbstractType
                     return $queryBuilder;
                 },
                 'attr' => [
-                    'class' => 'state js-example-basic-single'
+                    'class' => 'state new-participant-dropdown'
                 ]
             ))
             ->add('Add', SubmitType::class, [
