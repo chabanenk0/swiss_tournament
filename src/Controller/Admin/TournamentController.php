@@ -5,7 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Participant;
 use App\Entity\Player;
 use App\Entity\Tournament;
-use App\Form\Type\AddParticipantType;
+use App\Form\Type\ParticipantType;
 use App\Repository\ParticipantRepository;
 use App\Repository\TournamentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -39,7 +39,7 @@ class TournamentController extends Controller
         $participant = new Participant();
         $participant->setTournament($tournament);
 
-        $form = $this->createForm(AddParticipantType::class, $participant);
+        $form = $this->createForm(ParticipantType::class, $participant);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $maxOrder = array_reduce($participants, function ($maxOrder, $participant) {
