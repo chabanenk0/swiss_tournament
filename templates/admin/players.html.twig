@@ -7,7 +7,7 @@
                 {% set i = 0 %}
                 {% for participant in participants %}
                     {% set i = i + 1 %}
-                    <li>{{ participant.player }}</li>
+                    <li>{{ participant.player }} <a href="{{ path('delete_player_tournament', {'id' :  participant.id}) }}"> delete</a></li>
                 {% endfor %}
             </ol>
         </div>

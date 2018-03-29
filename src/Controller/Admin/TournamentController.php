@@ -60,4 +60,14 @@ class TournamentController extends Controller
         ]);
     }
 
+    public function deletePlayerTournamentAction(Request $request, $id)
+    {
+        $participant = $this->getDoctrine()->getRepository(Participant::class)->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($participant);
+        $em->flush();
+
+        return $this->redirect($request->headers->get('referer'));
+    }
+
 }
