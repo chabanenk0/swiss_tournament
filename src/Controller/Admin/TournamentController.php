@@ -3,8 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Participant;
-use App\Entity\Player;
 use App\Entity\Tournament;
+use App\Form\Type\DeleteType;
 use App\Form\Type\ParticipantType;
 use App\Repository\ParticipantRepository;
 use App\Repository\TournamentRepository;
@@ -39,6 +39,15 @@ class TournamentController extends Controller
         $participant = new Participant();
         $participant->setTournament($tournament);
 
+        $deleteForm = $this->createForm(DeleteType::class);
+
+        $deleteForm->handleRequest($request);
+        if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
+            $data = $deleteForm->getData();
+            return $this->redirectToRoute('delete_player_tournament', ['participantId' => $data['id']]);
+        }
+
+
         $form = $this->createForm(ParticipantType::class, $participant);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -57,12 +66,13 @@ class TournamentController extends Controller
         return $this->render('admin/players.html.twig', [
             'participants' => $participants,
             'form' => $form->createView(),
+            'del_form' => $deleteForm,
         ]);
     }
 
-    public function deletePlayerTournamentAction(Request $request, $id)
+    public function deletePlayerTournamentAction(Request $request, $participantId)
     {
-        $participant = $this->getDoctrine()->getRepository(Participant::class)->find($id);
+        $participant = $this->getDoctrine()->getRepository(Participant::class)->find($participantId);
         $em = $this->getDoctrine()->getManager();
         $em->remove($participant);
         $em->flush();

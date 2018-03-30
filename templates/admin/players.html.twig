@@ -6,8 +6,13 @@
             <ol>
                 {% set i = 0 %}
                 {% for participant in participants %}
-                    {% set i = i + 1 %}
-                    <li>{{ participant.player }} <a href="{{ path('delete_player_tournament', {'id' :  participant.id}) }}"> delete</a></li>
+                    {% set delete_form = del_form.createView %}
+                    <li>
+                        {{ form_start(delete_form) }}
+                        {% set i = i + 1 %}
+                        {{ form_row(delete_form.id, { 'label': participant.player, 'value': participant.id, 'attr': {'class': 'hidden'} }) }}
+                        {{ form_end(delete_form) }}
+                    </li>
                 {% endfor %}
             </ol>
         </div>

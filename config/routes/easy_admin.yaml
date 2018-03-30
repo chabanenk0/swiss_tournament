@@ -8,7 +8,7 @@ add_players_tournament:
     controller: App\Controller\Admin\TournamentController::addPlayersTournamentAction
 
 delete_player_tournament:
-    path: admin/tournament/delete_player/{id}
+    path: admin/tournament/delete_player/{participantId}
     controller: App\Controller\Admin\TournamentController::deletePlayerTournamentAction
 
 
