@@ -282,6 +282,42 @@ class Tournament
     }
 
     /**
+     * @todo add this field to the database
+     * @return string
+     */
+    public function getCity()
+    {
+        return 'Cherkasy';
+    }
+
+    /**
+     * @todo add this field to the database
+     * @todo implement choice options
+     * @return string
+     */
+    public function getCountry()
+    {
+        return 'UKR';
+    }
+
+    /**
+     * @todo add this field to db
+     * @return string
+     */
+    public function getChiefArbiter()
+    {
+        return 'Tulumanov';
+    }
+
+    /**
+     * @todo add this field to db
+     */
+    public function getAllotedTimePerMove()
+    {
+        return 'moves/time, increment'; // or ''
+    }
+
+    /**
      * @return string
      */
     public function __toString()

@@ -12,6 +12,7 @@ use App\Repository\ParticipantRepository;
 use App\Repository\TournamentRepository;
 use App\Services\PairingSystemProvider;
 use App\Services\RoundRobinPairingSystem;
+use App\Services\SwissPairingSystem;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -145,5 +146,28 @@ class TournamentController extends Controller
                 $tournament->getPairingSystem() === RoundRobinPairingSystem::CODE
                 && $tournament->getStatus() === Tournament::STATUS_PLANNED
             );
+    }
+
+    public function generateNextRoundAction(Request $request)
+    {
+        /** @var PairingSystemProvider $pairingSystemProvider */
+        $pairingSystemProvider = $this->get(PairingSystemProvider::class);
+        $pairingSystems = $pairingSystemProvider->getPairingSystemsNamesAndCodes();
+        var_dump($pairingSystems);
+        $tournament = new Tournament();
+        $tournament->setPairingSystem(SwissPairingSystem::CODE);
+//        $roundRobinSystem = $pairingSystemProvider->getPairingSystemByTournament($tournament);
+        $roundRobinSystem = $pairingSystemProvider->getPairingSystemByCode($tournament->getPairingSystem());
+        $participants = $this->createParticipants();
+        $round = new Round();
+        $round->setTournament();
+        $pairs = $roundRobinSystem->doPairing($tournament, $round, $participants);
+        /** @var RoundResult $pair */
+        foreach ($pairs as $pair) {
+            $whiteName = $pair->getWhiteParticipant()->getPlayer()->getLastName();
+            $blackName = $pair->getBlackParticipant()->getPlayer()->getLastName();
+            var_dump($whiteName . ' - ' . $blackName);
+        }
+        exit;
     }
 }
