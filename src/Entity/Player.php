@@ -56,7 +56,11 @@ class Player
      */
     private $birthDate = '';
 
-    /** Range (titul) constants */
+    /**
+     * Range (titul) constants
+     * @todo add the following values: GM, IM, WGM, FM, WIM, CM, WFM, WCM
+     * use 'title' property value
+     */
     const RANGE_1_ROZRYAD = 1;
     const RANGE_2_ROZRYAD = 2;
     const RANGE_3_ROZRYAD = 3;
@@ -307,6 +311,21 @@ class Player
     public function removeParticipant(Participant $participant)
     {
         $this->participants->removeElement($participant);
+    }
+
+    public function getFideRating()
+    {
+        return 0;
+    }
+
+    public function getFideFederation()
+    {
+        return '   ';
+    }
+
+    public function getFideNumber()
+    {
+        return 0;
     }
 
     /**
