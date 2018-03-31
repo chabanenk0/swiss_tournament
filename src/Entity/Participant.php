@@ -18,7 +18,7 @@ class Participant
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Player", inversedBy="participants", cascade="remove")
+     * @ORM\ManyToOne(targetEntity="Player", inversedBy="participants")
      * @ORM\JoinColumn(name="player_id", referencedColumnName="id")
      */
     private $player;
