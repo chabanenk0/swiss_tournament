@@ -40,9 +40,11 @@
             {{ include('tournament/show.html.twig', {'tournament':tournament}) }}
         {% endfor %}
         <tr>
-            <td class="pagerfanta m-auto pt-1 pb-0 px-2" colspan="11">
-                {{ pagerfanta(tournaments_pager, 'twitter_bootstrap3') }}
-            </td>
+            {% if tournaments_pager.nbPages > 1 %}
+                <td class="pagerfanta m-auto pt-1 pb-0 px-2" colspan="11">
+                    {{ pagerfanta(tournaments_pager, 'twitter_bootstrap3') }}
+                </td>
+            {% endif %}
         </tr>
         </tbody>
     </table>
