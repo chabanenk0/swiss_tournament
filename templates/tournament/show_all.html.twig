@@ -19,7 +19,6 @@
         {{ this.render_item('in_progress', 'Поточнi') }}
         {{ this.render_item('completed', 'Завершенi') }}
     </div>
-
     <table class="table table-striped">
         <thead>
         <tr>
@@ -37,10 +36,14 @@
         </tr>
         </thead>
         <tbody>
-        {% for tournament in tournaments %}
-            {{ include('tournament/show.html.twig',{'tournament':tournament}) }}
+        {% for tournament in tournaments_pager.currentPageResults %}
+            {{ include('tournament/show.html.twig', {'tournament':tournament}) }}
         {% endfor %}
-
+        <tr>
+            <td class="pagerfanta m-auto pt-1 pb-0 px-2" colspan="11">
+                {{ pagerfanta(tournaments_pager, 'twitter_bootstrap3') }}
+            </td>
+        </tr>
         </tbody>
     </table>
 {% endblock main_content %}

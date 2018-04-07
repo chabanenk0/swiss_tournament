@@ -3,28 +3,45 @@
 namespace App\Controller;
 
 use App\Entity\Tournament;
+use Pagerfanta\Adapter\ArrayAdapter;
+use Pagerfanta\Adapter\DoctrineDbalAdapter;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class MainController extends Controller
 {
+    const MAX_COUNT_PER_PAGE = 2;
+
     public function index()
     {
         return $this->render('base.html.twig');
     }
 
-    public function showAllTournamentsAction($statusSlug)
+    public function showAllTournamentsAction($statusSlug, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $repo = $em->getRepository('App:Tournament');
+        $tournamentRepository = $em->getRepository('App:Tournament');
+
         if ('all' === $statusSlug) {
-            $tournaments = $repo->findAll();
+            $query = $tournamentRepository
+                ->createQueryBuilder('t');
         } else {
             $status = Tournament::STATUS_SLUGS[$statusSlug];
-            $tournaments = $repo->findBy(['status' => $status]);
+            $query = $tournamentRepository
+                ->createQueryBuilder('t')
+                ->where('t.status = :status')
+                ->setParameter('status', $status);
         }
 
+        $adapter = new DoctrineORMAdapter($query);
+        $pagerfanta = new Pagerfanta($adapter);
+        $pagerfanta->setMaxPerPage(self::MAX_COUNT_PER_PAGE);
+        $pagerfanta->setCurrentPage($request->get('page'));
+
         return $this->render('tournament/show_all.html.twig', [
-            'tournaments' => $tournaments,
+            'tournaments_pager' => $pagerfanta
         ]);
     }
 }
