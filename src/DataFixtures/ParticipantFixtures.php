@@ -9,7 +9,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class ParticipantFixtures extends Fixture implements DependentFixtureInterface
 {
-
     public function load(ObjectManager $manager)
     {
         for ($i = 0; $i < 2; $i++) {

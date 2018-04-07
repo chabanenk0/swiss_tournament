@@ -33,5 +33,4 @@ class PlayerFixtures extends Fixture
 
         $manager->flush();
     }
-
 }
