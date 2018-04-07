@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -85,6 +86,11 @@ class Tournament
      * @ORM\OneToMany(targetEntity="Round", mappedBy="tournament", cascade="remove")
      */
     private $rounds;
+
+    public function __construct()
+    {
+        $this->rounds = new ArrayCollection();
+    }
 
     public function getLink()
     {

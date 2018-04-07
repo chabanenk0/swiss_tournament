@@ -37,7 +37,7 @@ class RoundResult
 
     /**
      * @ORM\ManyToOne(targetEntity="Participant")
-     * @ORM\JoinColumn(name="white_participant_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="black_participant_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $blackParticipant;
 

@@ -15,6 +15,12 @@
                     </li>
                 {% endfor %}
             </ol>
+
+            {% if can_generate_round %}
+                <a href="{{ path('round_generation', {'id': tournament.id}) }}" class="btn">Почати наступний раунд</a>
+            {% else %}
+                <p>Раунд уже створено.</p>
+            {% endif %}
         </div>
         <div class="col-md-6">
             <h2>Список гравців:</h2>
@@ -26,7 +32,7 @@
         </div>
     </div>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.new-participant-dropdown').select2();
         });
     </script>

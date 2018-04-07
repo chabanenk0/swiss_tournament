@@ -7,3 +7,7 @@ show_tournaments:
     controller: App\Controller\MainController::showAllTournamentsAction
     defaults:
         statusSlug: 'all'
+
+round_generation:
+    path: /admin/tournament/{id}/generate
+    controller:  App\Controller\Admin\TournamentController::generatePairsAction

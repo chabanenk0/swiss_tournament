@@ -3,12 +3,17 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Participant;
+use App\Entity\Round;
 use App\Entity\Tournament;
+use App\Exceptions\UndefinedPairSystemCode;
 use App\Form\Type\DeleteType;
 use App\Form\Type\ParticipantType;
 use App\Repository\ParticipantRepository;
 use App\Repository\TournamentRepository;
+use App\Services\PairingSystemProvider;
+use App\Services\RoundRobinPairingSystem;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 
 class TournamentController extends Controller
@@ -21,12 +26,19 @@ class TournamentController extends Controller
      * @var ParticipantRepository
      */
     private $participantRepository;
+    /**
+     * @var PairingSystemProvider
+     */
+    private $pairingSystemProvider;
+
     public function __construct(
         TournamentRepository $tournamentRepository,
-        ParticipantRepository $participantRepository
+        ParticipantRepository $participantRepository,
+        PairingSystemProvider $pairingSystemProvider
     ) {
         $this->tournamentRepository = $tournamentRepository;
         $this->participantRepository = $participantRepository;
+        $this->pairingSystemProvider = $pairingSystemProvider;
     }
 
     public function addPlayersTournamentAction(Request $request, $id)
@@ -67,6 +79,8 @@ class TournamentController extends Controller
             'participants' => $participants,
             'form' => $form->createView(),
             'del_form' => $deleteForm,
+            'tournament' => $tournament,
+            'can_generate_round' => $this->canGenerateRound($tournament)
         ]);
     }
 
@@ -78,5 +92,58 @@ class TournamentController extends Controller
         $em->flush();
 
         return $this->redirect($request->headers->get('referer'));
+    }
+
+    /**
+     * @param Request $request
+     * @param Tournament $tournament
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @throws UndefinedPairSystemCode
+     */
+    public function generatePairsAction(Request $request, Tournament $tournament = null)
+    {
+        if ($tournament === null) {
+            throw new Exception('No tournament with id ' . $request->get('id'));
+        }
+        $em = $this->getDoctrine()->getManager();
+        $participants = $this->participantRepository->findBy(['tournament' => $tournament]);
+
+        if (!$this->canGenerateRound($tournament)) {
+            throw new Exception('Cannot generate next round');
+        };
+
+        $tournament->setStatus(Tournament::STATUS_IN_PROGRESS);
+
+        try {
+            $pairingSystem = $this->pairingSystemProvider->getPairingSystemByTournament($tournament);
+        } catch (UndefinedPairSystemCode $e) {
+            throw $e;
+        }
+
+        $round = new Round();
+        $em->persist($round);
+
+        $pairs = $pairingSystem->doPairing($tournament, $round, $participants);
+
+        foreach ($pairs as $pair) {
+            $em->persist($pair);
+        }
+        $em->flush();
+
+        return $this->redirectToRoute('add_players_tournament', ['id' => $tournament->getId()]);
+    }
+
+    /**
+     * @param Tournament $tournament
+     * @return bool
+     */
+    private function canGenerateRound(Tournament $tournament): bool
+    {
+        /** @var Tournament $tournament */
+        return !$tournament->getStatus() === Tournament::STATUS_COMPLETED
+            || (
+                $tournament->getPairingSystem() === RoundRobinPairingSystem::CODE
+                && $tournament->getStatus() === Tournament::STATUS_PLANNED
+            );
     }
 }
