@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Tournament;
+use App\Services\RoundRobinPairingSystem;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -14,7 +15,7 @@ class TournamentFixtures extends Fixture
         for ($i = 0; $i < 5; $i++) {
             $tournament = new Tournament();
 
-            $tournament->setStatus(1);
+            $tournament->setStatus(Tournament::STATUS_PLANNED);
             $tournament->setTitle('Title'.$i);
             $tournament->setDescription('Description'.$i);
             $tournament->setEndTimestamp(100+$i);
@@ -24,6 +25,7 @@ class TournamentFixtures extends Fixture
             $tournament->setPlaceGpsX(23.01);
             $tournament->setPlaceGpsY(145.7);
             $tournament->setStartTimestamp($i);
+            $tournament->setPairingSystem(RoundRobinPairingSystem::CODE);
 
             $manager->persist($tournament);
 
