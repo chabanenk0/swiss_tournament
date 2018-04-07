@@ -86,7 +86,8 @@ class Tournament
      */
     private $rounds;
 
-    public function getLink() {
+    public function getLink()
+    {
         return $this->id;
     }
 

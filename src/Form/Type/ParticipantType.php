@@ -23,7 +23,7 @@ class ParticipantType extends AbstractType
     private function getUsedPlayerIdsByTournamentId($torunamentId)
     {
         $participants = $this->participantRepository->findBy(['tournament' => $torunamentId]);
-        return array_map(function(Participant $participant) {
+        return array_map(function (Participant $participant) {
             return $participant->getPlayer()->getId();
         }, $participants);
     }

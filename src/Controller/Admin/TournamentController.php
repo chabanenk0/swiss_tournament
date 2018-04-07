@@ -79,5 +79,4 @@ class TournamentController extends Controller
 
         return $this->redirect($request->headers->get('referer'));
     }
-
 }

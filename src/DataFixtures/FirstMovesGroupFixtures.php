@@ -8,7 +8,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class FirstMovesGroupFixtures extends Fixture
 {
-
     public function load(ObjectManager $manager)
     {
         $firstMovesGroup = new FirstMovesGroup();

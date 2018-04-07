@@ -96,4 +96,3 @@ class Participant
         return $this->tournament ? $this->tournament->getTitle() : 'undefined torunament participant';
     }
 }
-

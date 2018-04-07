@@ -31,7 +31,5 @@ class TournamentFixtures extends Fixture
         }
 
         $manager->flush();
-
     }
-
 }
