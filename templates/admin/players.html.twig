@@ -30,11 +30,6 @@
             {{ form_end(form) }}
 
         </div>
+        <script src="{{ asset('build/tournament.js') }}"></script>
     </div>
-    <script>
-        $(document).ready(function () {
-            $('.new-participant-dropdown').select2();
-        });
-    </script>
 {% endblock content %}
-

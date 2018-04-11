@@ -7,6 +7,7 @@ Encore
     .setPublicPath('/build')
     // will create public/build/app.js and public/build/app.css
     .addEntry('app', './assets/js/app.js')
+    .addEntry('tournament', './assets/js/tournament.js')
     .autoProvidejQuery()
 ;
 // export the final configuration
