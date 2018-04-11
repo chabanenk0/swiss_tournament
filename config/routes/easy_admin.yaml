@@ -11,6 +11,10 @@ delete_player_tournament:
     path: admin/tournament/delete_player/{participantId}
     controller: App\Controller\Admin\TournamentController::deletePlayerTournamentAction
 
+set_tournament_results:
+    path: admin/tournament/set_tournament_results/{tournamentId}
+    controller: App\Controller\Admin\TournamentController::setSwissTournamentResultsAction
+
 
 
 

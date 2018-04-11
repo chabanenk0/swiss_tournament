@@ -1,0 +1,69 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+{% block content %}
+    <link rel="stylesheet" href="{{ asset('build/tournament.css') }}">
+
+    <div class="row list_of_participant">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <table>
+                <tr>
+                    <td>Місце</td>
+                    <td>Прізвище та ім'я</td>
+                    <td>Дата народження</td>
+                    <td>Місто</td>
+                    <td>Федерація</td>
+                    <td>Рейтинг</td>
+                    <td>Звання</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                </tr>
+            {% for participant in participants %}
+                <tr>
+                    <td>
+                        {{ participant.participantOrder }}
+                    </td>
+                    <td>
+                        {{ participant.player.firstName }}
+                        {{ participant.player.lastName }}
+                    </td>
+                    <td>
+                        {{ participant.player.birthDate|date }}
+                    </td>
+                    <td>
+                        {{ participant.player.city }}
+                    </td>
+                    <td>
+                        {{ participant.player.federation }}
+                    </td>
+                    <td>
+                        1237
+                    </td>
+                    <td>
+                        11
+                    </td>
+                    <td>
+                        /
+                    </td>
+                    <td>
+                        /
+                    </td>
+                    <td>
+                        /
+                    </td>
+                    <td>
+                        /
+                    </td>
+                    <td>
+                        /
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+    </div>
+
+{% endblock content %}
+
