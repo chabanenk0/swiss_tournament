@@ -9,5 +9,5 @@ interface PairingSystemInterface
 {
     public function getCode();
     public function getName();
-    public function doPairing(Tournament $tournament, Round $round, array $participants);
+    public function doPairing(Tournament $tournament, Round $round, array $participants, array $roundResults);
 }

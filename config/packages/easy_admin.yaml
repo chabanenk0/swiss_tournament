@@ -16,7 +16,7 @@ easy_admin:
                     - place
                     - placeGpsX
                     - placeGpsY
-                    - { property: 'pairingSystem', type: choice,  type_options: { choices: { SWISS: 0, ROUND: 1 }}}
+                    - { property: 'pairingSystem', type: choice,  type_options: { choices: { SWISS: 2, ROUND: 1 }}}
                     - numberOfRounds
                     - { property: 'status', type: choice, type_options: { choices: { New: 0, inProgress: 1, Completed: 2 }}}
         Player:

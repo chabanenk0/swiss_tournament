@@ -121,7 +121,7 @@ class Participant
      */
     public function getPoints(): float
     {
-        return $this->points;
+        return (float) $this->points;
     }
 
     /**
@@ -137,7 +137,7 @@ class Participant
      */
     public function getRank(): int
     {
-        return $this->rank;
+        return (int) $this->rank;
     }
 
     /**
@@ -166,6 +166,14 @@ class Participant
     public function getRoundResults()
     {
         return $this->roundResults;
+    }
+
+    /**
+     * @param array|ArrayCollection $roundResults
+     */
+    public function setRoundResults($roundResults)
+    {
+        $this->roundResults = $roundResults;
     }
 
     public function __toString()

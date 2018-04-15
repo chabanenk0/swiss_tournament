@@ -320,7 +320,7 @@ class Player
 
     public function getFideFederation()
     {
-        return '   ';
+        return 'UKR';
     }
 
     public function getFideNumber()

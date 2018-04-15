@@ -4,11 +4,13 @@ namespace App\Controller\Admin;
 
 use App\Entity\Participant;
 use App\Entity\Round;
+use App\Entity\RoundResult;
 use App\Entity\Tournament;
 use App\Exceptions\UndefinedPairSystemCode;
 use App\Form\Type\DeleteType;
 use App\Form\Type\ParticipantType;
 use App\Repository\ParticipantRepository;
+use App\Repository\RoundResultRepository;
 use App\Repository\TournamentRepository;
 use App\Services\PairingSystemProvider;
 use App\Services\RoundRobinPairingSystem;
@@ -115,6 +117,10 @@ class TournamentController extends Controller
 
         $tournament->setStatus(Tournament::STATUS_IN_PROGRESS);
 
+        /** @var RoundResultRepository $roundResultsRepository */
+        $roundResultsRepository = $em->getRepository(RoundResult::class);
+        $roundResults = $roundResultsRepository->findBy(['tournament' => $tournament]);
+
         try {
             $pairingSystem = $this->pairingSystemProvider->getPairingSystemByTournament($tournament);
         } catch (UndefinedPairSystemCode $e) {
@@ -124,7 +130,7 @@ class TournamentController extends Controller
         $round = new Round();
         $em->persist($round);
 
-        $pairs = $pairingSystem->doPairing($tournament, $round, $participants);
+        $pairs = $pairingSystem->doPairing($tournament, $round, $participants, $roundResults);
 
         foreach ($pairs as $pair) {
             $em->persist($pair);
@@ -141,33 +147,10 @@ class TournamentController extends Controller
     private function canGenerateRound(Tournament $tournament): bool
     {
         /** @var Tournament $tournament */
-        return !$tournament->getStatus() === Tournament::STATUS_COMPLETED
+        return !($tournament->getStatus() === Tournament::STATUS_COMPLETED)
             || (
                 $tournament->getPairingSystem() === RoundRobinPairingSystem::CODE
                 && $tournament->getStatus() === Tournament::STATUS_PLANNED
             );
-    }
-
-    public function generateNextRoundAction(Request $request)
-    {
-        /** @var PairingSystemProvider $pairingSystemProvider */
-        $pairingSystemProvider = $this->get(PairingSystemProvider::class);
-        $pairingSystems = $pairingSystemProvider->getPairingSystemsNamesAndCodes();
-        var_dump($pairingSystems);
-        $tournament = new Tournament();
-        $tournament->setPairingSystem(SwissPairingSystem::CODE);
-//        $roundRobinSystem = $pairingSystemProvider->getPairingSystemByTournament($tournament);
-        $roundRobinSystem = $pairingSystemProvider->getPairingSystemByCode($tournament->getPairingSystem());
-        $participants = $this->createParticipants();
-        $round = new Round();
-        $round->setTournament();
-        $pairs = $roundRobinSystem->doPairing($tournament, $round, $participants);
-        /** @var RoundResult $pair */
-        foreach ($pairs as $pair) {
-            $whiteName = $pair->getWhiteParticipant()->getPlayer()->getLastName();
-            $blackName = $pair->getBlackParticipant()->getPlayer()->getLastName();
-            var_dump($whiteName . ' - ' . $blackName);
-        }
-        exit;
     }
 }
