@@ -7,12 +7,19 @@ use App\Entity\Player;
 use App\Entity\Round;
 use App\Entity\RoundResult;
 use App\Entity\Tournament;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
 class SwissPairingSystem implements PairingSystemInterface
 {
     const CODE = 2;
 
     private $roundResultsByParticipants = array();
+    private $vendorPath;
+
+    public function __construct($kernelRootDir)
+    {
+        $this->vendorPath= $kernelRootDir . '/../vendor';
+    }
 
     /**
      * @return int
@@ -41,7 +48,7 @@ class SwissPairingSystem implements PairingSystemInterface
             $blackParticipant = $roundResult->getBlackParticipant();
             $blackParticipantOrderNumber = $blackParticipant->getParticpantOrder();
             /** @var Participant $whiteParticipant */
-            $whiteParticipant = $roundResult->getBlackParticipant();
+            $whiteParticipant = $roundResult->getWhiteParticipant();
             $whiteParticipantOrderNumber = $whiteParticipant->getParticpantOrder();
             /** @var Round $round */
             $round = $roundResult->getRound();
@@ -216,7 +223,6 @@ class SwissPairingSystem implements PairingSystemInterface
 
         /** @var RoundResult $roundResult */
         foreach ($roundResults as $roundResultByRound) {
-            break; // @todo debug when rounds are present
             foreach ($roundResultByRound as $roundResult) {
                 if ($roundResult->getResult() === RoundResult::RESULT_NO_PAIR) {
                     fprintf($fileHandle, ' 0000 - Z ');
@@ -228,20 +234,18 @@ class SwissPairingSystem implements PairingSystemInterface
                 $blackParticipant = $roundResult->getBlackParticipant();
 
                 if ($whiteParticipant->getId() === $participant->getId()) {
-                    fprintf(
-                        $fileHandle,
-                        " %4d w %1d ",
-                        $blackParticipant->getParticpantOrder(),
-                        (int) ($roundResult->getResult() === RoundResult::RESULT_BLACK_WIN)
-                    );
+                    $result = (int) ($roundResult->getResult() === RoundResult::RESULT_BLACK_WIN);
+                    $result = ($roundResult->getResult() === RoundResult::RESULT_DRAW) ? '=' : $result;
+                    $partnerOrderNumber = $blackParticipant->getParticpantOrder();
+                    $playerColor = 'w';
                 } else {
-                    fprintf(
-                        $fileHandle,
-                        " %4d b %1d ",
-                        $whiteParticipant->getParticpantOrder(),
-                        (int) ($roundResult->getResult() === RoundResult::RESULT_WHITE_WIN)
-                    );
+                    $result = (int) ($roundResult->getResult() === RoundResult::RESULT_WHITE_WIN);
+                    $result = ($roundResult->getResult() === RoundResult::RESULT_DRAW) ? '=' : $result;
+                    $partnerOrderNumber = $whiteParticipant->getParticpantOrder();
+                    $playerColor = 'b';
                 }
+
+                fprintf($fileHandle, " %4d %1s %1s ", $partnerOrderNumber, $playerColor, $result);
             }
         }
 
@@ -365,7 +369,6 @@ class SwissPairingSystem implements PairingSystemInterface
      */
     private function getVendorPath()
     {
-        // @todo get from app config
-        return __DIR__ . '/' . implode('/', ['..', '..', 'vendor']);
+        return $this->vendorPath;
     }
 }
