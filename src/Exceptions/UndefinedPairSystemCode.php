@@ -8,7 +8,13 @@
 
 namespace App\Exceptions;
 
+<<<<<<< HEAD
 
 class UndefinedPairSystemCode extends \Exception
 {
 }
+=======
+class UndefinedPairSystemCode extends \Exception
+{
+}
+>>>>>>> remotes/origin/feature-pairing-services

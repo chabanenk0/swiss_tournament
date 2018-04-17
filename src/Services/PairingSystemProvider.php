@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> remotes/origin/feature-pairing-services
 use App\Entity\Tournament;
 use App\Exceptions\UndefinedPairSystemCode;
 
@@ -42,7 +45,11 @@ class PairingSystemProvider
     {
         $pairingSystemsDataArray = [];
 
+<<<<<<< HEAD
         foreach($this->pairingSystemConfigurations as $code => $pairingSystemConfiguration) {
+=======
+        foreach ($this->pairingSystemConfigurations as $code => $pairingSystemConfiguration) {
+>>>>>>> remotes/origin/feature-pairing-services
             $pairingSystemsDataArray[$code] = $pairingSystemConfiguration['name'];
         }
 

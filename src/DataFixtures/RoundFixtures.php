@@ -9,7 +9,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class RoundFixtures extends Fixture implements DependentFixtureInterface
 {
-    public  function  load(ObjectManager $manager)
+    public function load(ObjectManager $manager)
     {
         $round = new Round();
         $tournament = $this->getReference('Tournament0');
@@ -21,7 +21,6 @@ class RoundFixtures extends Fixture implements DependentFixtureInterface
 
         $manager->persist($round);
         $manager->flush();
-
     }
 
     public function getDependencies()
@@ -30,5 +29,4 @@ class RoundFixtures extends Fixture implements DependentFixtureInterface
             TournamentFixtures::class,
         );
     }
-
 }

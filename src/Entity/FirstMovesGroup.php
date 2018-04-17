@@ -38,4 +38,3 @@ class FirstMovesGroup
         return $this->name;
     }
 }
-

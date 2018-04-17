@@ -64,6 +64,4 @@ class FirstMoveFixtures extends Fixture implements DependentFixtureInterface
             FirstMovesGroupFixtures::class,
         );
     }
-
 }
-

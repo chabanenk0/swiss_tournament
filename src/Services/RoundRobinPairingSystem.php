@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> remotes/origin/feature-pairing-services
 use App\Entity\Round;
 use App\Entity\RoundResult;
 use App\Entity\Tournament;
@@ -25,7 +28,11 @@ class RoundRobinPairingSystem implements PairingSystemInterface
         $pairs = array();
 
         foreach ($participants as $blackParticipant) {
+<<<<<<< HEAD
             foreach($participants as $whiteParticipant) {
+=======
+            foreach ($participants as $whiteParticipant) {
+>>>>>>> remotes/origin/feature-pairing-services
                 if ($blackParticipant->getId() === $whiteParticipant->getId()) {
                     continue;
                 }

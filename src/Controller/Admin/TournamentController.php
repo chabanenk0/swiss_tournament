@@ -30,7 +30,8 @@ class TournamentController extends Controller
         TournamentRepository $tournamentRepository,
         ParticipantRepository $participantRepository,
         SwissTournamentManage $swissTournamentManage
-    ) {
+    )
+    {
         $this->tournamentRepository = $tournamentRepository;
         $this->participantRepository = $participantRepository;
         $this->swissTournamentManage = $swissTournamentManage;
@@ -103,5 +104,5 @@ class TournamentController extends Controller
             'participants' => $participants,
         ]);
     }
-
 }
+
