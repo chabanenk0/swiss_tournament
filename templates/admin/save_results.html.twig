@@ -2,6 +2,7 @@
 {% block content %}
     <link rel="stylesheet" href="{{ asset('build/tournament.css') }}">
 
+
     <div class="row list_of_participant">
         <div class="col-md-2"></div>
         <div class="col-md-10">
@@ -44,8 +45,14 @@
                     <td>
                         11
                     </td>
-                    <td>
-                        /
+                    <td class="res">
+                        <input type="text" class="forma">
+                        <select class="forma">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                        </select>
+                        <input class="forma" type="submit">
                     </td>
                     <td>
                         /
@@ -64,6 +71,17 @@
             </table>
         </div>
     </div>
+
+    <script>
+        $('.res').on('click', function () {
+            $('.forma').css({'display' : 'block'});
+        });
+    </script>
+    <style>
+        .forma{
+            display: none;
+        }
+    </style>
 
 {% endblock content %}
 
