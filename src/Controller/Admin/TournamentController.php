@@ -35,7 +35,8 @@ class TournamentController extends Controller
         TournamentRepository $tournamentRepository,
         ParticipantRepository $participantRepository,
         PairingSystemProvider $pairingSystemProvider
-    ) {
+    )
+    {
         $this->tournamentRepository = $tournamentRepository;
         $this->participantRepository = $participantRepository;
         $this->pairingSystemProvider = $pairingSystemProvider;
@@ -89,6 +90,19 @@ class TournamentController extends Controller
         $participant = $this->getDoctrine()->getRepository(Participant::class)->find($participantId);
         $em = $this->getDoctrine()->getManager();
         $em->remove($participant);
+
+        $tournament = $participant->getTournament();
+        $participants = $em->getRepository(Participant::class)
+            ->getParticipantsByTournamentWhereOrderMoreThanTarget($tournament, $participant->getParticpantOrder());
+
+        /** @var Participant[] $updatedParticipants */
+        for ($i = 0; $i < count($participants); $i++) {
+            $item = $participants[$i];
+            /** @var Participant $item */
+            $currentOrder = $item->getParticpantOrder();
+            $item->setParticipantOrder(--$currentOrder);
+        }
+
         $em->flush();
 
         return $this->redirect($request->headers->get('referer'));

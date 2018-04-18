@@ -13,16 +13,15 @@ class ParticipantRepository extends ServiceEntityRepository
         parent::__construct($registry, Participant::class);
     }
 
-    /*
-    public function findBySomething($value)
+    public function getParticipantsByTournamentWhereOrderMoreThanTarget($tournament, $participantOrder)
     {
-        return $this->createQueryBuilder('p')
-            ->where('p.something = :value')->setParameter('value', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('participant')
+            ->where('participant.tournament = :tournament')
+            ->setParameter('tournament', $tournament)
+            ->andWhere('participant.participantOrder > :participantOrder')
+            ->setParameter('participantOrder', $participantOrder)
+            ->orderBy('participant.participantOrder','ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
 }
