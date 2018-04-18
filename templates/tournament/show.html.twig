@@ -11,11 +11,11 @@
     <td>{{ tournament.numberOfRounds }}</td>
     <td>
         {% if tournament.status == 0 %}
-            <span class="badge badge-success">planned</span>
+            <span class="badge badge-success">{{ 'planned'|trans }}</span>
         {% elseif tournament.status == 1 %}
-            <span class="badge badge-info">in progress</span>
+            <span class="badge badge-info">{{ 'in progress'|trans }}</span>
         {% elseif tournament.status == 2 %}
-            <span class="badge badge-secondary">completed</span>
+            <span class="badge badge-secondary">{{ 'completed'|trans }}</span>
         {% endif %}
     </td>
 </tr>
