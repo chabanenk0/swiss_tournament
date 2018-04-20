@@ -38,7 +38,8 @@ class TournamentController extends Controller
     public function __construct(
         TournamentRepository $tournamentRepository,
         ParticipantRepository $participantRepository,
-        PairingSystemProvider $pairingSystemProvider
+        PairingSystemProvider $pairingSystemProvider,
+        SwissTournamentManage $swissTournamentManage
     ) {
         $this->tournamentRepository = $tournamentRepository;
         $this->participantRepository = $participantRepository;
