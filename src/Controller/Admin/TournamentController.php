@@ -35,8 +35,7 @@ class TournamentController extends Controller
         TournamentRepository $tournamentRepository,
         ParticipantRepository $participantRepository,
         PairingSystemProvider $pairingSystemProvider
-    )
-    {
+    ) {
         $this->tournamentRepository = $tournamentRepository;
         $this->participantRepository = $participantRepository;
         $this->pairingSystemProvider = $pairingSystemProvider;
@@ -93,14 +92,11 @@ class TournamentController extends Controller
 
         $tournament = $participant->getTournament();
         $participants = $em->getRepository(Participant::class)
-            ->getParticipantsByTournamentWhereOrderMoreThanTarget($tournament, $participant->getParticpantOrder());
+            ->getParticipantsByTournamentAndMinimalOrder($tournament, $participant->getParticpantOrder());
 
-        /** @var Participant[] $updatedParticipants */
-        for ($i = 0; $i < count($participants); $i++) {
-            $item = $participants[$i];
-            /** @var Participant $item */
-            $currentOrder = $item->getParticpantOrder();
-            $item->setParticipantOrder(--$currentOrder);
+        /** @var Participant $participant */
+        foreach ($participants as $participant) {
+            $participant->setParticipantOrder($participant->getParticpantOrder() - 1);
         }
 
         $em->flush();
