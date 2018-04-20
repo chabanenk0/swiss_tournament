@@ -14,25 +14,45 @@
     {% import _self as this %}
 
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
-        {{ this.render_item('all', 'Всi') }}
-        {{ this.render_item('planned', 'Новi') }}
-        {{ this.render_item('in_progress', 'Поточнi') }}
-        {{ this.render_item('completed', 'Завершенi') }}
+        {{ this.render_item('all', 'All'|trans) }}
+        {{ this.render_item('planned', 'New'|trans) }}
+        {{ this.render_item('in_progress', 'Current'|trans) }}
+        {{ this.render_item('completed', 'Completed'|trans) }}
     </div>
     <table class="table table-striped">
         <thead>
         <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Title</th>
-            <th scope="col">Description</th>
-            <th scope="col">Start</th>
-            <th scope="col">End</th>
-            <th scope="col">Place</th>
-            <th scope="col">Place GpsX</th>
-            <th scope="col">Place GpsY</th>
-            <th scope="col">Pairing system</th>
-            <th scope="col">Number of rounds</th>
-            <th scope="col">Status</th>
+            <th scope="col">
+                {{ 'Id'|trans }}
+            </th>
+            <th scope="col">
+                {{ 'Title'|trans }}
+            </th>
+            <th scope="col">
+                {{ 'Description'|trans }}
+            <th scope="col">
+                {{ 'Start'|trans }}
+            </th>
+            <th scope="col">
+                {{ 'End'|trans }}
+            </th>
+            <th scope="col">
+                {{ 'Place'|trans }}
+            </th>
+            <th scope="col">
+                {{ 'Place GpsX'|trans }}
+            </th>
+            <th scope="col">
+                {{ 'Place GpsY'|trans }}
+            </th>
+            <th scope="col">
+                {{ 'Pairing system'|trans }}
+            </th>
+            <th scope="col">
+                {{ 'Number of rounds'|trans }}
+            </th>
+            <th scope="col">
+                {{ 'Status'|trans }}
         </tr>
         </thead>
         <tbody>

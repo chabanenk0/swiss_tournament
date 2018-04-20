@@ -1,29 +1,49 @@
 easy_admin:
+    site_name: '<strong>Турніри з шашок</strong>'
+    list:
+        title: '%%entity_label%%'
     entities:
-        # List the entity class name you want to manage
         Tournament:
             class: App\Entity\Tournament
             list:
-                    fields: ['id', {property: 'link', type: 'url'}, 'description', { property: 'startTimestamp', type: 'datetime', format: 'd/m/Y H:i:s'  }, 'place']
-
-
+                actions:
+                    - { name: 'new', label: 'New tournament' }
+                    - { name: 'search', label: 'Search' }
+                    - { name: 'edit', label: 'Edit' }
+                    - { name: 'delete', label: 'Delete' }
+                fields: ['Id', {property: 'link', label: 'Link', type: 'url'}, 'description', { property: 'startTimestamp', label: 'Start Timestamp', type: 'datetime', format: 'd/m/Y H:i:s'  }, 'place']
             form:
+                actions:
+                    - { name: 'delete', label: 'Delete' }
+                    - { name: 'list', label: 'List' }
                 fields:
                     - title
                     - description
-                    - { property: 'startTimestamp', type: datetime, type_options: { input: timestamp, widget: choice }} 
-                    - { property: 'endTimestamp', type: datetime, type_options: { input: timestamp, widget: choice }}
+                    - { property: 'startTimestamp', label: 'Start Timestamp', type: datetime, type_options: { input: timestamp, widget: choice }}
+                    - { property: 'endTimestamp', label: 'End Timestamp', type: datetime, type_options: { input: timestamp, widget: choice }}
                     - place
-                    - placeGpsX
-                    - placeGpsY
+                    - { property: 'placeGpsX', label: 'Place GpsX' }
+                    - { property: 'placeGpsY', label: 'Place GpsY' }
                     - { property: 'pairingSystem', type: choice,  type_options: { choices: { SWISS: 0, ROUND: 1 }}}
                     - numberOfRounds
                     - { property: 'status', type: choice, type_options: { choices: { New: 0, inProgress: 1, Completed: 2 }}}
+            new:
+                title: 'Create tournament'
+            edit:
+                title: 'Edit tournament'
         Player:
             class: App\Entity\Player
             list:
-                fields: ['id', 'firstName', 'fathersName', 'lastName', 'avatarSrc', 'gender', 'birthDate']
+                actions:
+                    - { name: 'new', label: 'New player' }
+                    - { name: 'search', label: 'Search' }
+                    - { name: 'edit', label: 'Edit' }
+                    - { name: 'delete', label: 'Delete' }
+                fields: ['Id', 'firstName', 'fathersName', 'lastName', 'avatarSrc', 'gender', 'birthDate']
             form:
+                actions:
+                    - { name: 'delete', label: 'Delete' }
+                    - { name: 'list', label: 'List' }
                 fields:
                      - firstName
                      - fathersName
@@ -36,3 +56,8 @@ easy_admin:
                      - federation
                      - { property: 'phone', type: 'text'}
                      - { property: 'email', type: 'email'}
+            new:
+                title: 'Create player'
+            edit:
+                title: 'Edit player'
+

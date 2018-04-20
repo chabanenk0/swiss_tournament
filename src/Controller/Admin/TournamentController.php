@@ -101,6 +101,16 @@ class TournamentController extends Controller
         $participant = $this->getDoctrine()->getRepository(Participant::class)->find($participantId);
         $em = $this->getDoctrine()->getManager();
         $em->remove($participant);
+
+        $tournament = $participant->getTournament();
+        $participants = $em->getRepository(Participant::class)
+            ->getParticipantsByTournamentAndMinimalOrder($tournament, $participant->getParticpantOrder());
+
+        /** @var Participant $participant */
+        foreach ($participants as $participant) {
+            $participant->setParticipantOrder($participant->getParticpantOrder() - 1);
+        }
+
         $em->flush();
 
         return $this->redirect($request->headers->get('referer'));
