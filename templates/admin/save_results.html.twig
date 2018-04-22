@@ -45,14 +45,8 @@
                     <td>
                         11
                     </td>
-                    <td class="res">
-                        <input type="text" class="forma">
-                        <select class="forma">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                        </select>
-                        <input class="forma" type="submit">
+                    <td>
+                        /
                     </td>
                     <td>
                         /
@@ -72,16 +66,31 @@
         </div>
     </div>
 
-    <script>
-        $('.res').on('click', function () {
-            $('.forma').css({'display' : 'block'});
-        });
-    </script>
-    <style>
-        .forma{
-            display: none;
-        }
-    </style>
+    <!-- Button trigger modal -->
+    <a data-toggle="modal" data-target="#exampleModal">
+        L
+    </a>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Hello !!!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock content %}
 
