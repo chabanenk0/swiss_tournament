@@ -1,0 +1,78 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+{% block content %}
+    {#<link rel="stylesheet" href="{{ asset('build/tournament.css') }}">#}
+    <style>
+        .table-bordered {
+            border: 1px solid black;
+        }
+    </style>
+    <div class="container">
+        <h4>{{ tournament.title }}</h4>
+        <table class="table table-striped table-condensed">
+            <thead>
+            <tr>
+                <td> № </td>
+                <td>{{ 'Last name'|trans }}</td>
+                {% for participant in participants %}
+                    <td>{{ participant.participantOrder }}</td>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for participant in participants %}
+                <tr>
+                    {% set participant_one = ( participant_one | default(0) ) + 1 %}
+                    <td>{{ participant.participantOrder }}</td>
+                    <td>{{ participant.player.lastName }}</td>
+
+                    {% for participant in participants %}
+                        <td>
+                            {% set participant_two = ( participant_two | default(0) ) + 1 %}
+
+                            {% if participant_one == participant_two %}
+                                -
+                            {% else %}
+                                {#{{ participant_one }} - {{ participant_two }}#}
+
+                                <a data-toggle="modal" data-target="#myModal">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close"><span
+                                                            aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title" id="myModalLabel">{{ 'Round result'|trans }}</h4>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                {{ form_start(form) }}
+                                                {{ form_row(form.result) }}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default"
+                                                        data-dismiss="modal">{{ 'Close'|trans }}</button>
+                                                <button type="submit"
+                                                        class="btn btn-primary">{{ 'Save'|trans }}</button>
+                                                {{ form_end(form) }}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

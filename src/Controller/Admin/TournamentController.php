@@ -8,6 +8,7 @@ use App\Entity\Tournament;
 use App\Exceptions\UndefinedPairSystemCode;
 use App\Form\Type\DeleteType;
 use App\Form\Type\ParticipantType;
+use App\Form\Type\RoundResultType;
 use App\Repository\ParticipantRepository;
 use App\Repository\TournamentRepository;
 use App\Services\PairingSystemProvider;
@@ -16,6 +17,7 @@ use App\Services\SwissTournamentManage;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class TournamentController extends Controller
 {
@@ -40,7 +42,8 @@ class TournamentController extends Controller
         ParticipantRepository $participantRepository,
         PairingSystemProvider $pairingSystemProvider,
         SwissTournamentManage $swissTournamentManage
-    ) {
+    )
+    {
         $this->tournamentRepository = $tournamentRepository;
         $this->participantRepository = $participantRepository;
         $this->pairingSystemProvider = $pairingSystemProvider;
@@ -86,6 +89,11 @@ class TournamentController extends Controller
             $em->flush();
 
             return $this->redirectToRoute('add_players_tournament', ['id' => $id]);
+        }
+
+        if (!$this->canGenerateRound($tournament) &&
+            $tournament->getPairingSystem() === Tournament::PAIRING_SYSTEM_ROUND) {
+            return $this->redirectToRoute('round_system_tournament_results', ['id' => $tournament->getId()]);
         }
 
         return $this->render('admin/players.html.twig', [
@@ -146,6 +154,7 @@ class TournamentController extends Controller
         $round = new Round();
         $em->persist($round);
 
+        dump($pairingSystem->getName());exit;
         $pairs = $pairingSystem->doPairing($tournament, $round, $participants);
 
         foreach ($pairs as $pair) {
@@ -177,6 +186,27 @@ class TournamentController extends Controller
 
         return $this->render('admin/save_results.html.twig', [
             'participants' => $participants,
+        ]);
+    }
+
+    public function getTournamentResultsForRoundSystemAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $participants = $this->participantRepository->findBy(['tournament' => $id]);
+
+        $tournament = $this->tournamentRepository->findOneBy(['id' => $id]);
+
+        $form = $this->createForm(RoundResultType::class);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+        }
+
+        return $this->render('admin/round_system_results.html.twig', [
+            'tournament' => $tournament,
+            'participants' => $participants,
+            'form' => $form->createView()
         ]);
     }
 }
