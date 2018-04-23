@@ -105,7 +105,7 @@ class TournamentController extends Controller
 
         $tournament = $participant->getTournament();
         $participants = $em->getRepository(Participant::class)
-            ->getParticipantsByTournamentAndMinimalOrder($tournament, $participant->getParticpantOrder());
+            ->getParticipantsByTournamentAndMinimalOrder($tournament, $participant->getParticipantOrder());
 
         /** @var Participant $participant */
         foreach ($participants as $participant) {

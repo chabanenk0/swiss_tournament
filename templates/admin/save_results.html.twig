@@ -1,7 +1,7 @@
 {% extends '@EasyAdmin/default/layout.html.twig' %}
 {% block content %}
     <link rel="stylesheet" href="{{ asset('build/tournament.css') }}">
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
 
     <div class="row list_of_participant">
         <div class="col-md-2"></div>
@@ -43,22 +43,31 @@
                         1237
                     </td>
                     <td>
-                        11
+                        grs
                     </td>
                     <td>
-                        /
+                        <span>12/9</span>
+                        <p data-toggle="modal" data-target="#exampleModal" class="fas fa-edit"></p>
                     </td>
                     <td>
-                        /
+                        <span>12/9</span>
+                        <p data-toggle="modal" data-target="#exampleModal" class="fas fa-edit">
+                        </p>
                     </td>
                     <td>
-                        /
+                        <span>12/9</span>
+                        <p data-toggle="modal" data-target="#exampleModal" class="fas fa-edit">
+                        </p>
                     </td>
                     <td>
-                        /
+                        <span>12/9</span>
+                        <p data-toggle="modal" data-target="#exampleModal" class="fas fa-edit">
+                        </p>
                     </td>
                     <td>
-                        /
+                        <span>12/9</span>
+                        <p data-toggle="modal" data-target="#exampleModal" class="fas fa-edit">
+                        </p>
                     </td>
                 </tr>
             {% endfor %}
@@ -66,10 +75,6 @@
         </div>
     </div>
 
-    <!-- Button trigger modal -->
-    <a data-toggle="modal" data-target="#exampleModal">
-        L
-    </a>
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -91,6 +96,8 @@
             </div>
         </div>
     </div>
+
+
 
 {% endblock content %}
 
