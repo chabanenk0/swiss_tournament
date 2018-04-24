@@ -246,4 +246,14 @@ class RoundResult
     {
         $this->result = $result;
     }
+
+    public function getWhiteParticipantLastName()
+    {
+        return $this->getWhiteParticipant()->getPlayer()->getLastName();
+    }
+
+    public function getBlackParticipantLastName()
+    {
+        return $this->getBlackParticipant()->getPlayer()->getLastName();
+    }
 }
