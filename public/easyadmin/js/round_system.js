@@ -1,8 +1,8 @@
 $(document).ready(function () {
 
-    $('.roundResultShowButton').on('click', function (e) {
+    $('.round-result-show-button').on('click', function (e) {
         // Show modal
-        $('#setRoundResultModal').modal('show');
+        $('#set-round-result-modal').modal('show');
         // AJAX request
        var url = $(e.target).data('modal-target');
         $.ajax({
@@ -10,7 +10,7 @@ $(document).ready(function () {
             type: 'get',
             success: function (response) {
                 // Add response in Modal body
-                $('#modalBody').html(response);
+                $('#round-result-modal-body').html(response);
             }
         });
     });

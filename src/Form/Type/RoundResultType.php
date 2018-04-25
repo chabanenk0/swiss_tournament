@@ -43,9 +43,9 @@ class RoundResultType extends AbstractType
             ])
             ->add('result', ChoiceType::class, [
         'choices' => [
-            'білі виграли' => RoundResult::RESULT_WHITE_WIN,
-            'чорні виграли' => RoundResult::RESULT_BLACK_WIN,
-            'нічия' => RoundResult::RESULT_DRAW
+            $this->translator->trans('White win') => RoundResult::RESULT_WHITE_WIN,
+            $this->translator->trans('Black win') => RoundResult::RESULT_BLACK_WIN,
+            $this->translator->trans('Draw') => RoundResult::RESULT_DRAW
         ],
         'placeholder' => $this->translator->trans('Select the winner'),
         'label' => $this->translator->trans('Round result')
