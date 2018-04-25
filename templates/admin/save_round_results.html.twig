@@ -11,31 +11,36 @@
         <div class="col-md-10">
             <table>
                 <tr>
-                    <td>Місце</td>
                     <td>Гравець чорними</td>
                     <td>Гравець білими</td>
                     <td>Результат</td>
-
                 </tr>
-                {#{% for participant in participants %}#}
-                    <tr>
-                        <td>
-                            {#{{ participant.participantOrder }}#}
-                        </td>
-                        <td>
-                            {{ white_participant.player.firstName }}
-                            {{ white_participant.player.lastName }}
-                        </td>
-                        <td>
-                            {{ black_participant.player.firstName }}
-                            {{ black_participant.player.lastName }}
-                        </td>
-                        <td>
-                            <span>12/0</span>
-                            <p data-toggle="modal" data-target="#exampleModal" class="fa fa-edit"></p>
-                        </td>
-                    </tr>
-                {#{% endfor %}#}
+                <tr>
+                    <td>
+                        <ul>
+                            {% for black_participant in black_participants %}
+                                <li>
+                                    {{ black_participant.player.firstName }}
+                                    {{ black_participant.player.lastName }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            {% for white_participant in white_participants %}
+                                <li>
+                                    {{ white_participant.player.firstName }}
+                                    {{ white_participant.player.lastName }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <span>0</span>
+                        <p data-toggle="modal" data-target="#exampleModal" class="fa fa-edit"></p>
+                    </td>
+                </tr>
             </table>
         </div>
     </div>

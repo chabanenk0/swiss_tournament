@@ -187,19 +187,25 @@ class TournamentController extends Controller
 
     public function setSwissRoundResultsAction($tournamentId, $roundId)
     {
-        $roundResult = $this->getDoctrine()->getRepository(RoundResult::class)->find($roundId);
+        $roundResults = $this->getDoctrine()->getRepository(RoundResult::class)->findBy(['round' => $roundId]);
 
-        $blackParticipantId = $roundResult->getBlackParticipant()->getId();
-        $whiteParticipantId = $roundResult->getWhiteParticipant()->getId();
+        $blackParticipants = [];
+        $whiteParticipants = [];
 
-        $blackParticipant = $this->getDoctrine()->getRepository(Participant::class)->find($blackParticipantId);
-        $whiteParticipant = $this->getDoctrine()->getRepository(Participant::class)->find($whiteParticipantId);
+        foreach ($roundResults as $roundResult) {
+
+            $blackParticipants[] = $this->getDoctrine()->getRepository(Participant::class)->find($roundResult->getBlackParticipant()->getId());
+            $whiteParticipants[] = $this->getDoctrine()->getRepository(Participant::class)->find($roundResult->getWhiteParticipant()->getId());
+        }
+
+
+
 
         return $this->render('admin/save_round_results.html.twig', [
             'round_id' => $roundId,
             'tournament_id' => $tournamentId,
-            'black_participant' => $blackParticipant,
-            'white_participant' => $whiteParticipant,
+            'black_participants' => $blackParticipants,
+            'white_participants' => $whiteParticipants,
         ]);
     }
 }
