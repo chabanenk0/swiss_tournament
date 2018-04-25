@@ -52,10 +52,6 @@ class Tournament
      */
     private $placeGpsY = 0;
 
-    /** Pairing system  constants */
-    const PAIRING_SYSTEM_SWISS = 1;
-    const PAIRING_SYSTEM_ROUND = 2;
-
     /**
      * @ORM\Column(type="integer", name="pairing_system")
      */

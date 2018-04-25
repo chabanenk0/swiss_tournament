@@ -4,14 +4,19 @@ namespace App\Controller\Admin;
 
 use App\Entity\Participant;
 use App\Entity\Round;
+use App\Entity\RoundResult;
 use App\Entity\Tournament;
 use App\Exceptions\UndefinedPairSystemCode;
 use App\Form\Type\DeleteType;
+use App\Form\Type\PairRoundResultType;
 use App\Form\Type\ParticipantType;
 use App\Repository\ParticipantRepository;
 use App\Repository\TournamentRepository;
 use App\Services\PairingSystemProvider;
 use App\Services\RoundRobinPairingSystem;
+use App\Services\RoundTournamentManager;
+use App\Services\SwissPairingSystem;
+use App\Services\SwissTournamentManage;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,20 +36,42 @@ class TournamentController extends Controller
      */
     private $pairingSystemProvider;
 
+
+    private $swissTournamentManage;
+    /**
+     * @var RoundTournamentManager
+     */
+    private $roundTournamentManager;
+
     public function __construct(
         TournamentRepository $tournamentRepository,
         ParticipantRepository $participantRepository,
-        PairingSystemProvider $pairingSystemProvider
+        PairingSystemProvider $pairingSystemProvider,
+        SwissTournamentManage $swissTournamentManage,
+        RoundTournamentManager $roundTournamentManager
     ) {
         $this->tournamentRepository = $tournamentRepository;
         $this->participantRepository = $participantRepository;
         $this->pairingSystemProvider = $pairingSystemProvider;
+        $this->swissTournamentManage = $swissTournamentManage;
+        $this->roundTournamentManager = $roundTournamentManager;
     }
 
     public function addPlayersTournamentAction(Request $request, $id)
     {
         /** @var Tournament $tournament */
         $tournament = $this->tournamentRepository->find($id);
+        if ($tournament->getStatus() == Tournament::STATUS_IN_PROGRESS &&
+            $tournament->getPairingSystem() === SwissPairingSystem::CODE) {
+            return $this->redirectToRoute('set_tournament_results', [
+                'tournamentId' => $id,
+            ]);
+        } elseif ($tournament->getStatus() == Tournament::STATUS_IN_PROGRESS &&
+            $tournament->getPairingSystem() === RoundRobinPairingSystem::CODE) {
+            return $this->redirectToRoute('round_system_tournament_results', [
+                'id' => $id]);
+        }
+
         /** @var Participant[] $participants */
         $participants = $this->participantRepository->findBy(['tournament' => $id]);
 
@@ -59,12 +86,12 @@ class TournamentController extends Controller
             return $this->redirectToRoute('delete_player_tournament', ['participantId' => $data['id']]);
         }
 
-
         $form = $this->createForm(ParticipantType::class, $participant);
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $maxOrder = array_reduce($participants, function ($maxOrder, $participant) {
-                return max($maxOrder, $participant->getParticpantOrder());
+                return max($maxOrder, $participant->getParticipantOrder());
             }, 0);
 
             $participant->setParticipantOrder($maxOrder + 1);
@@ -131,8 +158,8 @@ class TournamentController extends Controller
         }
 
         $round = new Round();
+        $round->setTournament($tournament);
         $em->persist($round);
-
         $pairs = $pairingSystem->doPairing($tournament, $round, $participants);
 
         foreach ($pairs as $pair) {
@@ -150,10 +177,81 @@ class TournamentController extends Controller
     private function canGenerateRound(Tournament $tournament): bool
     {
         /** @var Tournament $tournament */
-        return !$tournament->getStatus() === Tournament::STATUS_COMPLETED
-            || (
-                $tournament->getPairingSystem() === RoundRobinPairingSystem::CODE
-                && $tournament->getStatus() === Tournament::STATUS_PLANNED
-            );
+        return $tournament->getStatus() === Tournament::STATUS_IN_PROGRESS;
+    }
+
+    public function setSwissTournamentResultsAction(SwissTournamentManage $swissTournamentManage, $tournamentId)
+    {
+        $participants = $this->swissTournamentManage->getParticipantsDataByTournamentId($tournamentId);
+
+        return $this->render('admin/save_results.html.twig', [
+            'participants' => $participants,
+        ]);
+    }
+
+    public function getTournamentResultsForRoundSystemAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $participants = $this->participantRepository->findBy(['tournament' => $id]);
+        $tournament = $this->tournamentRepository->findOneBy(['id' => $id]);
+
+        $roundResults = $em->getRepository(RoundResult::class)->findBy(
+            ['tournament' => $tournament]
+        );
+        $groupedRoundResults = $this->getGroupedRoundResults($roundResults);
+
+        return $this->render('admin/round_system_results.html.twig', [
+            'tournament' => $tournament,
+            'participants' => $participants,
+            'round_results' => $groupedRoundResults,
+        ]);
+    }
+
+    public function setResultsForRoundSystemAction(Request $request, $participantOneId, $participantTwoId)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $roundResultOne = $em->getRepository(RoundResult::class)
+            ->findOneBy(['whiteParticipant' => $participantOneId, 'blackParticipant' => $participantTwoId]);
+        $roundResultTwo = $em->getRepository(RoundResult::class)
+            ->findOneBy(['whiteParticipant' => $participantTwoId, 'blackParticipant' => $participantOneId]);
+
+        $participants = [$roundResultOne, $roundResultTwo];
+
+        $form = $this->createForm(PairRoundResultType::class, $participants, [
+            'action' => $this->generateUrl('set_round_result', [
+                'participantOneId' => $participantOneId,
+                'participantTwoId' => $participantTwoId,
+            ])
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            return $this->redirectToRoute('round_system_tournament_results', [
+                'id' => $roundResultTwo->getTournament()->getId()
+            ]);
+        }
+        return $this->render('admin/form/round_result.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    private function getGroupedRoundResults($roundResults)
+    {
+        $groupedRoundResults = [];
+
+        foreach ($roundResults as $roundResult) {
+            /** @var RoundResult $roundResult */
+            $whiteId = $roundResult->getWhiteParticipant()->getId();
+            $blackId = $roundResult->getBlackParticipant()->getId();
+
+            if (!array_key_exists($whiteId, $groupedRoundResults)) {
+                $groupedRoundResults[$whiteId] = [];
+            }
+            $groupedRoundResults[$whiteId][$blackId] = $roundResult;
+        }
+        return $groupedRoundResults;
     }
 }
