@@ -4,10 +4,12 @@ namespace App\Controller\Admin;
 
 use App\Entity\Participant;
 use App\Entity\Round;
+use App\Entity\RoundResult;
 use App\Entity\Tournament;
 use App\Exceptions\UndefinedPairSystemCode;
 use App\Form\Type\DeleteType;
 use App\Form\Type\ParticipantType;
+use App\Form\Type\SwissResultType;
 use App\Repository\ParticipantRepository;
 use App\Repository\TournamentRepository;
 use App\Services\PairingSystemProvider;
@@ -109,7 +111,7 @@ class TournamentController extends Controller
 
         /** @var Participant $participant */
         foreach ($participants as $participant) {
-            $participant->setParticipantOrder($participant->getParticpantOrder() - 1);
+            $participant->setParticipantOrder($participant->getParticipantOrder() - 1);
         }
 
         $em->flush();
@@ -170,13 +172,34 @@ class TournamentController extends Controller
             );
     }
 
-    public function setSwissTournamentResultsAction(SwissTournamentManage $swissTournamentManage, $tournamentId)
+    public function setSwissTournamentResultsAction(Request $request, SwissTournamentManage $swissTournamentManage, $tournamentId)
     {
+        $roundResults = $this->getDoctrine()->getRepository(RoundResult::class)->findBy(['tournament' => $tournamentId]);
 
         $participants = $this->swissTournamentManage->getParticipantsDataByTournamentId($tournamentId);
 
         return $this->render('admin/save_results.html.twig', [
+            'round_results' => $roundResults,
             'participants' => $participants,
+            'tournament_id' => $tournamentId,
+        ]);
+    }
+
+    public function setSwissRoundResultsAction($tournamentId, $roundId)
+    {
+        $roundResult = $this->getDoctrine()->getRepository(RoundResult::class)->find($roundId);
+
+        $blackParticipantId = $roundResult->getBlackParticipant()->getId();
+        $whiteParticipantId = $roundResult->getWhiteParticipant()->getId();
+
+        $blackParticipant = $this->getDoctrine()->getRepository(Participant::class)->find($blackParticipantId);
+        $whiteParticipant = $this->getDoctrine()->getRepository(Participant::class)->find($whiteParticipantId);
+
+        return $this->render('admin/save_round_results.html.twig', [
+            'round_id' => $roundId,
+            'tournament_id' => $tournamentId,
+            'black_participant' => $blackParticipant,
+            'white_participant' => $whiteParticipant,
         ]);
     }
 }

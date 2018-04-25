@@ -9,48 +9,30 @@
             <table>
                 <tr>
                     <td>Місце</td>
-                    <td>Прізвище та ім'я</td>
-                    <td>Дата народження</td>
-                    <td>Місто</td>
-                    <td>Федерація</td>
-                    <td>Рейтинг</td>
-                    <td>Звання</td>
-                    {% for round_result in round_results %}
-                        <td><a href="{{ path('set_round_results', {'tournamentId' : tournament_id, 'roundId' : round_result.id}) }}">{{ round_result.id }}</a></td>
-                    {% endfor %}
+                    <td>Гравець чорними</td>
+                    <td>Гравець білими</td>
+                    <td>Результат</td>
+
                 </tr>
-            {% for participant in participants %}
-                <tr>
-                    <td>
-                        {{ participant.participantOrder }}
-                    </td>
-                    <td>
-                        {{ participant.player.firstName }}
-                        {{ participant.player.lastName }}
-                    </td>
-                    <td>
-                        {{ participant.player.birthDate|date }}
-                    </td>
-                    <td>
-                        {{ participant.player.city }}
-                    </td>
-                    <td>
-                        {{ participant.player.federation }}
-                    </td>
-                    <td>
-                        1237
-                    </td>
-                    <td>
-                        grs
-                    </td>
-                    {% for round_result in round_results %}
+                {#{% for participant in participants %}#}
+                    <tr>
                         <td>
-                            <span>12/</span>
+                            {#{{ participant.participantOrder }}#}
+                        </td>
+                        <td>
+                            {{ white_participant.player.firstName }}
+                            {{ white_participant.player.lastName }}
+                        </td>
+                        <td>
+                            {{ black_participant.player.firstName }}
+                            {{ black_participant.player.lastName }}
+                        </td>
+                        <td>
+                            <span>12/0</span>
                             <p data-toggle="modal" data-target="#exampleModal" class="fas fa-edit"></p>
                         </td>
-                    {% endfor %}
-                </tr>
-            {% endfor %}
+                    </tr>
+                {#{% endfor %}#}
             </table>
         </div>
     </div>
@@ -69,14 +51,14 @@
                 <div class="modal-body">
                     <form method="post" action="{{ path('set_tournament_results', { 'tournamentId': tournament_id }) }}">
                         Суперник:
-                        <select>
-                        {% for participant in participants %}
-                                <option>
-                                    {{ participant.player.firstName }}
-                                    {{ participant.player.lastName }}
-                                </option>
-                        {% endfor %}
-                        </select>
+                        {#<select>#}
+                            {#{% for participant in participants %}#}
+                                {#<option>#}
+                                    {#{{ participant.player.firstName }}#}
+                                    {#{{ participant.player.lastName }}#}
+                                {#</option>#}
+                            {#{% endfor %}#}
+                        {#</select>#}
                         Результат:
                         <select name="result">
                             <option>

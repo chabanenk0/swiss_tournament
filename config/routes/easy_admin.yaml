@@ -15,6 +15,10 @@ set_tournament_results:
     path: admin/tournament/set_tournament_results/{tournamentId}
     controller: App\Controller\Admin\TournamentController::setSwissTournamentResultsAction
 
+set_round_results:
+    path: admin/tournament/set_round_results/{tournamentId}/{roundId}
+    controller: App\Controller\Admin\TournamentController::setSwissRoundResultsAction
+
 
 
 
