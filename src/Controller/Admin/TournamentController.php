@@ -199,7 +199,7 @@ class TournamentController extends Controller
         $roundResults = $em->getRepository(RoundResult::class)->findBy(
             ['tournament' => $tournament]
         );
-        $groupedRoundResults = $this->getGroupedRoundResultsAction($roundResults);
+        $groupedRoundResults = $this->getGroupedRoundResults($roundResults);
 
         return $this->render('admin/round_system_results.html.twig', [
             'tournament' => $tournament,
@@ -238,7 +238,7 @@ class TournamentController extends Controller
         ]);
     }
 
-    private function getGroupedRoundResultsAction($roundResults)
+    private function getGroupedRoundResults($roundResults)
     {
         $groupedRoundResults = [];
 
