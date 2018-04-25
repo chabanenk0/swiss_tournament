@@ -1,0 +1,78 @@
+# Front
+# tournaments list
+Id: Ідентифікатор
+Title: Назва
+Description: Опис
+Start: Початок
+End: Кінець
+Place: Місце
+Place GpsX: Місце GpsX
+Place GpsY: Місце GpsY
+Pairing system: Система парування
+Number of rounds: Кількість раундів
+Status: Статус
+in progress: розпочатi
+planned: в майбутньому
+completed: завершенi
+
+# tournaments tabs
+All: Всі
+New: Нові
+Current: Поточний
+Completed: Завершені
+
+# header menu
+Tournaments: Турніри
+Participants: Учасники
+Schedule: Розклад
+Rating: Рейтинг
+
+# Admin
+# actions
+Edit: Редагувати
+Delete: Видалити
+Search: Пошук
+action.save: Зберегти
+
+# tournament show
+Link: Посилання
+Start Timestamp: Час початку
+New tournament: Створити турнір
+
+# tournament form
+Tournament: Турнір
+Create tournament: Створити турнір
+Edit tournament: Редагувати турнір
+End Timestamp: Час закінчення
+Save: Зберегти
+List: Повернутись
+
+# player form
+Player: Гравець
+Create player: Створити гравця
+Edit player: Редагувати гравця
+First name: Ім'я
+Fathers name: По батькові
+Last name: Прізвище
+Avatar src: Зображення
+Gender: Стать
+Birth date: Дата народження
+Range: Діапазон
+City: Місто
+Federation: Федерація
+Phone: Телефон
+Email: Електронна пошта
+
+Participant order: Порядок участник
+Close: Закрити
+Select the winner: Виберіть переможця
+Round result: Результат раунду
+
+# round result
+White participant last name: Прізвище гравця білими
+Black participant last name: Прізвище гравця чорними
+White win: Білі виграли
+Black win: Чорні виграли
+Draw: Нічия
+Full name: Прізвище та ім'я
+Rank: Звання

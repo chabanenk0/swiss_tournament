@@ -17,7 +17,7 @@ class Round
     private $id = 0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Tournament")
+     * @ORM\ManyToOne(targetEntity="Tournament", inversedBy="rounds")
      * @ORM\JoinColumn(name="tournament_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $tournament;

@@ -78,7 +78,7 @@ class Participant
     /**
      * @return mixed
      */
-    public function getParticpantOrder()
+    public function getParticipantOrder()
     {
         return $this->participantOrder;
     }
