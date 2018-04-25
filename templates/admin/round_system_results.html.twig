@@ -25,6 +25,10 @@
                             {% if participant_one == participant_two %}
                                 -
                             {% else %}
+                                {% set roundResult1 = round_results[participant_one.id][participant_two.id] %}
+                                {% set roundResult2 = round_results[participant_two.id][participant_one.id] %}
+                                {{ roundResult1.result }}
+                                {{ roundResult2.result }}
                                 <a class="round-result-show-button">
                                     <i class="fa fa-pencil"
                                        data-modal-target="{{ path('set_round_result',{'participantOneId':participant_one.id,'participantTwoId':participant_two.id}) }}"
@@ -58,5 +62,6 @@
 {% endblock %}
 
 {% block body_javascript %}
+    {{ parent() }}
     <script src="{{ asset('easyadmin/js/round_system.js') }}"></script>
 {% endblock %}

@@ -191,12 +191,20 @@ class TournamentController extends Controller
 
     public function getTournamentResultsForRoundSystemAction($id)
     {
+        $em = $this->getDoctrine()->getManager();
+
         $participants = $this->participantRepository->findBy(['tournament' => $id]);
         $tournament = $this->tournamentRepository->findOneBy(['id' => $id]);
+
+        $roundResults = $em->getRepository(RoundResult::class)->findBy(
+            ['tournament' => $tournament]
+        );
+        $groupedRoundResults = $this->getGroupedRoundResultsAction($roundResults);
 
         return $this->render('admin/round_system_results.html.twig', [
             'tournament' => $tournament,
             'participants' => $participants,
+            'round_results' => $groupedRoundResults,
         ]);
     }
 
@@ -214,17 +222,36 @@ class TournamentController extends Controller
         $form = $this->createForm(PairRoundResultType::class, $participants, [
             'action' => $this->generateUrl('set_round_result', [
                 'participantOneId' => $participantOneId,
-                'participantTwoId' => $participantTwoId
+                'participantTwoId' => $participantTwoId,
             ])
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
-            return $this->redirectToRoute('round_system_tournament_results', ['id' => $roundResultTwo->getTournament()->getId()]);
+            return $this->redirectToRoute('round_system_tournament_results', [
+                'id' => $roundResultTwo->getTournament()->getId()
+            ]);
         }
         return $this->render('admin/form/round_result.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    private function getGroupedRoundResultsAction($roundResults)
+    {
+        $groupedRoundResults = [];
+
+        foreach ($roundResults as $roundResult) {
+            /** @var RoundResult $roundResult */
+            $whiteId = $roundResult->getWhiteParticipant()->getId();
+            $blackId = $roundResult->getBlackParticipant()->getId();
+
+            if (!array_key_exists($whiteId, $groupedRoundResults)) {
+                $groupedRoundResults[$whiteId] = [];
+            }
+            $groupedRoundResults[$whiteId][$blackId] = $roundResult;
+        }
+        return $groupedRoundResults;
     }
 }
