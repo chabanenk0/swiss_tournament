@@ -1,7 +1,10 @@
 {% extends '@EasyAdmin/default/layout.html.twig' %}
 {% block content %}
-    <link rel="stylesheet" href="{{ asset('build/tournament.css') }}">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
+    {% block head_stylesheets %}
+        {{ parent() }}
+        <link rel="stylesheet" href="{{ asset('build/tournament.css') }}">
+    {% endblock %}
 
     <div class="row list_of_participant">
         <div class="col-md-2"></div>
@@ -29,7 +32,7 @@
                         </td>
                         <td>
                             <span>12/0</span>
-                            <p data-toggle="modal" data-target="#exampleModal" class="fas fa-edit"></p>
+                            <p data-toggle="modal" data-target="#exampleModal" class="fa fa-edit"></p>
                         </td>
                     </tr>
                 {#{% endfor %}#}

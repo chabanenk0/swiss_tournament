@@ -7,14 +7,14 @@ table{
     margin-top: 15px;
 }
 
-td .fas{
+td .fa{
     visibility: hidden;
 }
 
-td:hover .fas{
+td:hover .fa{
     visibility: visible;
 }
 
-td .fas:hover{
+td .fa:hover{
     cursor: pointer;
 }

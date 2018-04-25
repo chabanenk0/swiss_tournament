@@ -14,7 +14,7 @@ use App\Repository\ParticipantRepository;
 use App\Repository\TournamentRepository;
 use App\Services\PairingSystemProvider;
 use App\Services\RoundRobinPairingSystem;
-use App\Services\SwissTournamentManage;
+use App\Services\SwissTournamentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,12 +41,12 @@ class TournamentController extends Controller
         TournamentRepository $tournamentRepository,
         ParticipantRepository $participantRepository,
         PairingSystemProvider $pairingSystemProvider,
-        SwissTournamentManage $swissTournamentManage
+        SwissTournamentManager $swissTournamentManager
     ) {
         $this->tournamentRepository = $tournamentRepository;
         $this->participantRepository = $participantRepository;
         $this->pairingSystemProvider = $pairingSystemProvider;
-        $this->swissTournamentManage = $swissTournamentManage;
+        $this->swissTournamentManager = $swissTournamentManager;
     }
 
     public function addPlayersTournamentAction(Request $request, $id)
@@ -172,11 +172,11 @@ class TournamentController extends Controller
             );
     }
 
-    public function setSwissTournamentResultsAction(Request $request, SwissTournamentManage $swissTournamentManage, $tournamentId)
+    public function setSwissTournamentResultsAction(Request $request, SwissTournamentManager $swissTournamentManager, $tournamentId)
     {
         $roundResults = $this->getDoctrine()->getRepository(RoundResult::class)->findBy(['tournament' => $tournamentId]);
 
-        $participants = $this->swissTournamentManage->getParticipantsDataByTournamentId($tournamentId);
+        $participants = $this->swissTournamentManager->getParticipantsDataByTournamentId($tournamentId);
 
         return $this->render('admin/save_results.html.twig', [
             'round_results' => $roundResults,
