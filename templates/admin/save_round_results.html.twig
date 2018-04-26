@@ -1,6 +1,5 @@
 {% extends '@EasyAdmin/default/layout.html.twig' %}
 {% block content %}
-
     {% block head_stylesheets %}
         {{ parent() }}
         <link rel="stylesheet" href="{{ asset('build/tournament.css') }}">
@@ -15,32 +14,23 @@
                     <td>Гравець білими</td>
                     <td>Результат</td>
                 </tr>
-                <tr>
-                    <td>
-                        <ul>
-                            {% for black_participant in black_participants %}
-                                <li>
-                                    {{ black_participant.player.firstName }}
-                                    {{ black_participant.player.lastName }}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </td>
-                    <td>
-                        <ul>
-                            {% for white_participant in white_participants %}
-                                <li>
-                                    {{ white_participant.player.firstName }}
-                                    {{ white_participant.player.lastName }}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </td>
-                    <td>
-                        <span>0</span>
-                        <p data-toggle="modal" data-target="#exampleModal" class="fa fa-edit"></p>
-                    </td>
-                </tr>
+                {% for participant in participants %}
+                    <tr>
+                        <td>
+                            {{ participant.black_participant.player.firstName }}
+                            {{ participant.black_participant.player.lastName }}
+                        </td>
+                        <td>
+                            {{ participant.white_participant.player.firstName }}
+                            {{ participant.white_participant.player.lastName }}
+                        </td>
+                        <td>
+                            <span>0</span>
+                            <p data-toggle="modal" data-target="#exampleModal" class="fa fa-edit"></p>
+                        </td>
+                    </tr>
+
+                {% endfor %}
             </table>
         </div>
     </div>
@@ -51,36 +41,15 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Results</h5>
+                    {#<h5 class="modal-title" id="exampleModalLabel">Results</h5>#}
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="{{ path('set_tournament_results', { 'tournamentId': tournament_id }) }}">
-                        Суперник:
-                        {#<select>#}
-                            {#{% for participant in participants %}#}
-                                {#<option>#}
-                                    {#{{ participant.player.firstName }}#}
-                                    {#{{ participant.player.lastName }}#}
-                                {#</option>#}
-                            {#{% endfor %}#}
-                        {#</select>#}
-                        Результат:
-                        <select name="result">
-                            <option>
-                                0
-                            </option>
-                            <option>
-                                1
-                            </option>
-                            <option>
-                                2
-                            </option>
-                        </select>
-                        <input type="submit" name="save" value="Save">
-                    </form>
+                    {{ form_start(form) }}
+
+                    {{ form_end(form) }}
                 </div>
             </div>
         </div>

@@ -1,0 +1,9 @@
+{{ form_start(form) }}
+
+{% for child in form %}
+    {{ form_row(child) }}
+{% endfor %}
+
+<input type="submit" value="{{ 'Save'|trans }}">
+
+{{ form_end(form) }}

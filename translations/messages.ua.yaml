@@ -62,3 +62,20 @@ City: Місто
 Federation: Федерація
 Phone: Телефон
 Email: Електронна пошта
+
+Participant order: Порядок участник
+Close: Закрити
+Select the winner: Виберіть переможця
+Round result: Результат раунду
+
+# round result
+White participant last name: Прізвище гравця білими
+Black participant last name: Прізвище гравця чорними
+White win: Білі виграли
+Black win: Чорні виграли
+Draw: Нічия
+Full name: Прізвище та ім'я
+Rank: Звання
+
+# swiss result
+Adversary: Суперник

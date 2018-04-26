@@ -1,0 +1,20 @@
+td{
+    border: 1px solid black;
+    padding: 10px;
+}
+
+table{
+    margin-top: 15px;
+}
+
+td .fa{
+    visibility: hidden;
+}
+
+td:hover .fa{
+    visibility: visible;
+}
+
+td .fa:hover{
+    cursor: pointer;
+}

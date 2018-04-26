@@ -16,20 +16,16 @@ class SwissResultType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('participant', ChoiceType::class, [
-                'choices' => [
-                    'opt' => $options,
-                ]
-            ])
             ->add('result', ChoiceType::class, [
                 'choices' => [
-                    'mid' => 0,
-                    'win' => 1,
-                    'fale' => 2,
-                ]
+                    'Black win' => 'RESULT_BLACK_WIN',
+                    'Draw' => 'RESULT_DRAW',
+                    'White win' => 'RESULT_WHITE_WIN',
+                ],
+                'label' => 'Round result',
             ])
-            ->add('remove', SubmitType::class, [
-                'label' => 'Видалити',
+            ->add('save', SubmitType::class, [
+                'label' => 'Save'
             ]);
     }
 }
