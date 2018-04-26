@@ -2,7 +2,7 @@
 {% block content %}
     <div class="container">
         <h4>{{ tournament.title }}</h4>
-        <p>0 - {{ 'Black win'|trans }}, 1 - {{ 'Draw'|trans }}, 2 - {{ 'White win'|trans }}</p>
+        {#<p>0 - {{ 'Black win'|trans }}, 1 - {{ 'Draw'|trans }}, 2 - {{ 'White win'|trans }}</p>#}
         <table class="table table-striped table-condensed">
             <thead>
             <tr>
@@ -11,6 +11,7 @@
                 {% for participant in participants %}
                     <td>{{ participant.participantOrder }}</td>
                 {% endfor %}
+                <td>{{ 'Total'|trans }}</td>
             </tr>
             </thead>
             <tbody>
@@ -19,7 +20,7 @@
                 <tr>
                     <td>{{ participant_one.participantOrder }}</td>
                     <td>{{ participant_one.player.lastName }}</td>
-
+                    {% set total_score = 0 %}
                     {% for participant_two in participants %}
                         <td>
                             {% if participant_one == participant_two %}
@@ -27,8 +28,9 @@
                             {% else %}
                                 {% set roundResult1 = round_results[participant_one.id][participant_two.id] %}
                                 {% set roundResult2 = round_results[participant_two.id][participant_one.id] %}
-                                {{ roundResult1.result }}
-                                {{ roundResult2.result }}
+                                {% set score_per_round = roundResult1.whiteScore + roundResult2.blackScore %}
+                                {% set total_score = total_score + score_per_round%}
+                                {{ score_per_round }}
                                 <a class="round-result-show-button">
                                     <i class="fa fa-pencil"
                                        data-modal-target="{{ path('set_round_result',{'participantOneId':participant_one.id,'participantTwoId':participant_two.id}) }}"
@@ -37,6 +39,9 @@
                             {% endif %}
                         </td>
                     {% endfor %}
+                    <td>
+                        {{ total_score }}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>

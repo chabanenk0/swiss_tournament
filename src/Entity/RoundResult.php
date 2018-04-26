@@ -77,7 +77,17 @@ class RoundResult
     /**
      * @ORM\Column(type="integer", nullable = true)
      */
-    private $result = 0;
+    private $result = null;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $whiteScore = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $blackScore = 0;
 
     /**
      * @return int
@@ -245,6 +255,18 @@ class RoundResult
     public function setResult($result): void
     {
         $this->result = $result;
+        switch ($result) {
+            case self::RESULT_BLACK_WIN:
+                $this->blackScore = 2;
+                break;
+            case self::RESULT_WHITE_WIN:
+                $this->whiteScore = 2;
+                break;
+            case self::RESULT_DRAW:
+                $this->blackScore = 1;
+                $this->whiteScore = 1;
+                break;
+        }
     }
 
     public function getWhiteParticipantLastName()
@@ -255,5 +277,15 @@ class RoundResult
     public function getBlackParticipantLastName()
     {
         return $this->getBlackParticipant()->getPlayer()->getLastName();
+    }
+
+    public function getWhiteScore()
+    {
+        return $this->whiteScore;
+    }
+
+    public function getBlackScore()
+    {
+        return $this->blackScore;
     }
 }
