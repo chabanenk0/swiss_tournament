@@ -177,7 +177,7 @@ class TournamentController extends Controller
     private function canGenerateRound(Tournament $tournament): bool
     {
         /** @var Tournament $tournament */
-        return $tournament->getStatus() === Tournament::STATUS_IN_PROGRESS;
+        return $tournament->getStatus() === Tournament::STATUS_PLANNED;
     }
 
     public function setSwissTournamentResultsAction(SwissTournamentManage $swissTournamentManage, $tournamentId)
