@@ -5,6 +5,7 @@ namespace App\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use App\Entity\RoundResult;
 
@@ -30,7 +31,8 @@ class SwissResultType extends AbstractType
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Save'
-            ]);
+            ])
+        ->add('round', TextType::class);
     }
 }
 

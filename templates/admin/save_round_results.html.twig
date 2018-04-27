@@ -14,6 +14,7 @@
                     <td>Гравець білими</td>
                     <td>Результат</td>
                 </tr>
+                {% set i = 0 %}
                 {% for participant in participants %}
                     <tr>
                         <td>
@@ -25,8 +26,27 @@
                             {{ participant.white_participant.player.lastName }}
                         </td>
                         <td>
-                            <span>0</span>
-                            <p data-toggle="modal" data-target="#exampleModal" class="fa fa-edit"></p>
+                            <span>{{ participant.result }}</span>
+                            {% set i = i + 1 %}
+                            <p data-toggle="modal" data-target="#exampleModal{{ i }}" class="fa fa-edit"></p>
+
+                            <div class="modal fade"  tabindex="-1" id="exampleModal{{ i }}" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {% set result_form = form.createView %}
+                                            {{ form_start(result_form) }}
+                                            {{ form_row(result_form.round, {'label': ' ', 'value': participant.white_participant.id, 'attr': {'class': 'hidden'} }) }}
+                                            {{ form_end(result_form) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
 
@@ -34,28 +54,5 @@
             </table>
         </div>
     </div>
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    {#<h5 class="modal-title" id="exampleModalLabel">Results</h5>#}
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    {{ form_start(form) }}
-
-                    {{ form_end(form) }}
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
 {% endblock content %}
 

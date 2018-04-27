@@ -197,29 +197,30 @@ class TournamentController extends Controller
     public function setSwissRoundResultsAction(Request $request, $tournamentId, $roundId)
     {
         $form = $this->createForm(SwissResultType::class);
-
         $form->handleRequest($request);
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $maxOrder = array_reduce($participants, function ($maxOrder, $participant) {
-//                return max($maxOrder, $participant->getParticipantOrder());
-//            }, 0);
-//
-//            $participant->setParticipantOrder($maxOrder + 1);
-//            $em = $this->getDoctrine()->getManager();
-//            $em->persist($participant);
-//            $em->flush();
-//
-//            return $this->redirectToRoute('add_players_tournament', ['id' => $id]);
-//        }
 
         $roundResults = $this->getDoctrine()->getRepository(RoundResult::class)->findBy(['round' => $roundId]);
-        $participants = [0 => ['black_participant' => ''], ['white_participant' => ''] ];
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $f = $form->getData();
+//            print_r($f['round']);exit;
+            $roundResult = $this->getDoctrine()->getRepository(RoundResult::class)->findOneBy([
+                'round' => $roundId,
+                'whiteParticipant' => $f['round'],
+            ]);
+            $roundResult->setResult($f['result']);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($roundResult);
+            $em->flush();
+        }
+        $participants = [];
 
         $i = 0;
         foreach ($roundResults as $roundResult) {
 
             $participants[$i]['black_participant'] = $this->getDoctrine()->getRepository(Participant::class)->find($roundResult->getBlackParticipant()->getId());
             $participants[$i]['white_participant'] = $this->getDoctrine()->getRepository(Participant::class)->find($roundResult->getWhiteParticipant()->getId());
+            $participants[$i]['result'] = $roundResult->getResult();
             $i++;
         }
 
@@ -227,7 +228,8 @@ class TournamentController extends Controller
             'round_id' => $roundId,
             'tournament_id' => $tournamentId,
             'participants' => $participants,
-            'form' => $form->createView(),
+            'form' => $form,
+            'round_results' => $roundResults,
         ]);
     }
 
