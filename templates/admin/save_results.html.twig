@@ -1,8 +1,12 @@
 {% extends '@EasyAdmin/default/layout.html.twig' %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/tournament.css') }}">
+{% endblock %}
+
 {% block content %}
     <link rel="stylesheet" href="{{ asset('build/tournament.css') }}">
-
-
     <div class="row list_of_participant">
         <div class="col-md-2"></div>
         <div class="col-md-10">
@@ -15,11 +19,9 @@
                     <td>{{ 'Federation'|trans }}</td>
                     <td>{{ 'Rating'|trans }}</td>
                     <td>{{ 'Rank'|trans }}</td>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>5</td>
+                    {% for round_result in round_results %}
+                        <td><a href="{{ path('set_round_results', {'tournamentId' : tournament_id, 'roundId' : round_result.id}) }}">{{ round_result.id }}</a></td>
+                    {% endfor %}
                 </tr>
             {% for participant in participants %}
                 <tr>
@@ -43,45 +45,56 @@
                         1237
                     </td>
                     <td>
-                        11
+                        grs
                     </td>
-                    <td class="res">
-                        <input type="text" class="forma">
-                        <select class="forma">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                        </select>
-                        <input class="forma" type="submit">
-                    </td>
-                    <td>
-                        /
-                    </td>
-                    <td>
-                        /
-                    </td>
-                    <td>
-                        /
-                    </td>
-                    <td>
-                        /
-                    </td>
+                    {% for round_result in round_results %}
+                        <td>
+                            <span>12/</span>
+                            <p data-toggle="modal" data-target="#exampleModal" class="fa fa-edit"></p>
+                        </td>
+                    {% endfor %}
                 </tr>
             {% endfor %}
             </table>
         </div>
     </div>
-
-    <script>
-        $('.res').on('click', function () {
-            $('.forma').css({'display' : 'block'});
-        });
-    </script>
-    <style>
-        .forma{
-            display: none;
-        }
-    </style>
-
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Results</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{{ path('set_tournament_results', { 'tournamentId': tournament_id }) }}">
+                        Суперник:
+                        <select>
+                        {% for participant in participants %}
+                                <option>
+                                    {{ participant.player.firstName }}
+                                    {{ participant.player.lastName }}
+                                </option>
+                        {% endfor %}
+                        </select>
+                        Результат:
+                        <select name="result">
+                            <option>
+                                0
+                            </option>
+                            <option>
+                                1
+                            </option>
+                            <option>
+                                2
+                            </option>
+                        </select>
+                        <input type="submit" name="save" value="Save">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock content %}
-
