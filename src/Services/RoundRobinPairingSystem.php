@@ -19,7 +19,7 @@ class RoundRobinPairingSystem implements PairingSystemInterface
         return 'Round robin';
     }
 
-    public function doPairing(Tournament $tournament, Round $round, array $participants)
+    public function doPairing(Tournament $tournament, Round $round, array $participants, array $roundResults)
     {
         $pairs = array();
 

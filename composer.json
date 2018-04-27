@@ -58,7 +58,9 @@
             "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "mkdir -p vendor/javafo/javafo && cd vendor/javafo/javafo && curl http://www.rrweb.org/javafo/current/javafo.jar --output javafo.jar && cd ../../..",
+            "echo 'java -ea ../javafo/javafo/javafo.jar' > vendor/bin/javafo && chmod u+x vendor/bin/javafo"
         ],
         "post-update-cmd": [
             "@auto-scripts"
