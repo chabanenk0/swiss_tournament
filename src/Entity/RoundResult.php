@@ -81,16 +81,6 @@ class RoundResult
     private $result = null;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $whiteScore = 0;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $blackScore = 0;
-
-    /**
      * @return int
      */
     public function getId(): int
@@ -256,18 +246,6 @@ class RoundResult
     public function setResult($result): void
     {
         $this->result = $result;
-        switch ($result) {
-            case self::RESULT_BLACK_WIN:
-                $this->blackScore = 2;
-                break;
-            case self::RESULT_WHITE_WIN:
-                $this->whiteScore = 2;
-                break;
-            case self::RESULT_DRAW:
-                $this->blackScore = 1;
-                $this->whiteScore = 1;
-                break;
-        }
     }
 
     public function getWhiteParticipantLastName()
@@ -280,13 +258,54 @@ class RoundResult
         return $this->getBlackParticipant()->getPlayer()->getLastName();
     }
 
+    /**
+     * @return int
+     */
     public function getWhiteScore()
     {
-        return $this->whiteScore;
+        $whiteScore = 0;
+
+        switch ($this->result) {
+            case null:
+                $whiteScore = 0;
+                break;
+            case self::RESULT_WHITE_WIN:
+                $whiteScore = 2;
+                break;
+            case self::RESULT_BLACK_WIN:
+                $whiteScore = 0;
+                break;
+            case self::RESULT_DRAW:
+                $whiteScore = 1;
+                break;
+        }
+
+        return $whiteScore;
     }
 
+    /**
+     * @return int
+     */
     public function getBlackScore()
     {
-        return $this->blackScore;
+        $blackScore = 0;
+
+        switch ($this->result) {
+            case null:
+                $blackScore = 0;
+                break;
+            case self::RESULT_BLACK_WIN:
+                $blackScore = 2;
+                break;
+            case self::RESULT_WHITE_WIN:
+                $blackScore = 0;
+                break;
+
+            case self::RESULT_DRAW:
+                $blackScore = 1;
+                break;
+        }
+
+        return $blackScore;
     }
 }
