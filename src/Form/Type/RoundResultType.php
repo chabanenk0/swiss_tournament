@@ -26,9 +26,6 @@ class RoundResultType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id', HiddenType::class, [
-                'mapped' => false
-            ])
             ->add('whiteParticipantLastName', TextType::class, [
                 'label' => $this->translator->trans('White participant last name'),
                 'attr' => [
