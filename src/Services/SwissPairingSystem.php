@@ -46,10 +46,10 @@ class SwissPairingSystem implements PairingSystemInterface
         foreach ($roundResults as $roundResult) {
             /** @var Participant $blackParticipant */
             $blackParticipant = $roundResult->getBlackParticipant();
-            $blackParticipantOrderNumber = $blackParticipant->getParticpantOrder();
+            $blackParticipantOrderNumber = $blackParticipant->getParticipantOrder();
             /** @var Participant $whiteParticipant */
             $whiteParticipant = $roundResult->getWhiteParticipant();
-            $whiteParticipantOrderNumber = $whiteParticipant->getParticpantOrder();
+            $whiteParticipantOrderNumber = $whiteParticipant->getParticipantOrder();
             /** @var Round $round */
             $round = $roundResult->getRound();
             $roundNumber = $round->getNumber();
@@ -139,7 +139,7 @@ class SwissPairingSystem implements PairingSystemInterface
         /** @var Participant $participant */
         foreach ($participants as $participant) {
             if (!$participant->getRank()) {
-                $participant->setRank($participant->getParticpantOrder());
+                $participant->setRank($participant->getParticipantOrder());
             }
 
             $this->writeParticipantInfo($fileHandle, $participant);
@@ -206,7 +206,7 @@ class SwissPairingSystem implements PairingSystemInterface
     private function writeParticipantInfo($fileHandle, Participant $participant)
     {
         $player = $participant->getPlayer();
-        fprintf($fileHandle, "001 %4d ", $participant->getParticpantOrder());
+        fprintf($fileHandle, "001 %4d ", $participant->getParticipantOrder());
         fprintf($fileHandle, "%s ", $player->getGender() === Player::GENDER_MALE ? 'm' : 'w');
         fprintf($fileHandle, "%2s  ", $this->getPlayerTitle($player));
         fprintf($fileHandle, "%32s ", $player->getLastName() . ' ' . $player->getFirstName());
@@ -217,8 +217,8 @@ class SwissPairingSystem implements PairingSystemInterface
         fprintf($fileHandle, "%2.1f ", $participant->getPoints());
         fprintf($fileHandle, "%4d ", $participant->getRank());
 
-        $roundResults = array_key_exists($participant->getParticpantOrder(), $this->roundResultsByParticipants)
-            ? $this->roundResultsByParticipants[$participant->getParticpantOrder()]
+        $roundResults = array_key_exists($participant->getParticipantOrder(), $this->roundResultsByParticipants)
+            ? $this->roundResultsByParticipants[$participant->getParticipantOrder()]
             : [];
 
         /** @var RoundResult $roundResult */
@@ -236,12 +236,12 @@ class SwissPairingSystem implements PairingSystemInterface
                 if ($whiteParticipant->getId() === $participant->getId()) {
                     $result = (int) ($roundResult->getResult() === RoundResult::RESULT_BLACK_WIN);
                     $result = ($roundResult->getResult() === RoundResult::RESULT_DRAW) ? '=' : $result;
-                    $partnerOrderNumber = $blackParticipant->getParticpantOrder();
+                    $partnerOrderNumber = $blackParticipant->getParticipantOrder();
                     $playerColor = 'w';
                 } else {
                     $result = (int) ($roundResult->getResult() === RoundResult::RESULT_WHITE_WIN);
                     $result = ($roundResult->getResult() === RoundResult::RESULT_DRAW) ? '=' : $result;
-                    $partnerOrderNumber = $whiteParticipant->getParticpantOrder();
+                    $partnerOrderNumber = $whiteParticipant->getParticipantOrder();
                     $playerColor = 'b';
                 }
 
@@ -314,7 +314,7 @@ class SwissPairingSystem implements PairingSystemInterface
 
         /** @var Participant $participant */
         foreach ($participants as $participant) {
-            $participantsByNumber[$participant->getParticpantOrder()] = $participant;
+            $participantsByNumber[$participant->getParticipantOrder()] = $participant;
         }
 
         $newRoundResults = [];
