@@ -73,6 +73,7 @@ class RoundResult
     const RESULT_BLACK_WIN = 0;
     const RESULT_DRAW = 1;
     const RESULT_WHITE_WIN = 2;
+    const RESULT_NO_PAIR = 3;
 
     /**
      * @ORM\Column(type="integer", nullable = true)
