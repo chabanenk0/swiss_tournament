@@ -265,15 +265,16 @@ class RoundResult
     {
         $whiteScore = 0;
 
+        if (null === $this->result) {
+            return 0;
+        }
+
         switch ($this->result) {
             case null:
                 $whiteScore = 0;
                 break;
             case self::RESULT_WHITE_WIN:
                 $whiteScore = 2;
-                break;
-            case self::RESULT_BLACK_WIN:
-                $whiteScore = 0;
                 break;
             case self::RESULT_DRAW:
                 $whiteScore = 1;
@@ -290,17 +291,15 @@ class RoundResult
     {
         $blackScore = 0;
 
+        // Unable to use null as switch-case option, it was converted to 0
+        if (null === $this->result) {
+            return 0;
+        }
+
         switch ($this->result) {
-            case null:
-                $blackScore = 0;
-                break;
             case self::RESULT_BLACK_WIN:
                 $blackScore = 2;
                 break;
-            case self::RESULT_WHITE_WIN:
-                $blackScore = 0;
-                break;
-
             case self::RESULT_DRAW:
                 $blackScore = 1;
                 break;
