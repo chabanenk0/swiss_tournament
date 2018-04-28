@@ -31,6 +31,11 @@
             {{ form_end(form) }}
 
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <a role="button" class="btn btn-primary" href="{{ path('easyadmin', {entity: 'Tournament', action: 'edit', id: tournament.id}) }}" alt="{{ 'Torunament data edit'|trans }}">{{ 'Torunament data edit'|trans }}</a>
+            </div>
+        </div>
         <script src="{{ asset('build/tournament.js') }}"></script>
     </div>
 {% endblock content %}
