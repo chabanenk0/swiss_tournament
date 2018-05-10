@@ -13,6 +13,17 @@ class RoundRepository extends ServiceEntityRepository
         parent::__construct($registry, Round::class);
     }
 
+    public function getRoundsWithResultsByTournament($tournament)
+    {
+        return $this->createQueryBuilder('round')
+            ->where('round.tournament = :tournament')
+            ->setParameter('tournament', $tournament)
+            ->orderBy('round.number', 'ASC')
+            ->join('round.results')
+            ->getQuery()
+            ->getResult();
+    }
+
     /*
     public function findBySomething($value)
     {

@@ -19,7 +19,7 @@
                     <td>{{ 'Federation'|trans }}</td>
                     <td>{{ 'Rating'|trans }}</td>
                     <td>{{ 'Rank'|trans }}</td>
-                    {% for round_result in round_results %}
+                    {% for round_result in results_by_round %}
                         <td><a href="{{ path('set_round_results', {'tournamentId' : tournament_id, 'roundId' : round_result.id}) }}">{{ round_result.id }}</a></td>
                     {% endfor %}
                 </tr>

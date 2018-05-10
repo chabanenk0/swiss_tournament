@@ -19,4 +19,18 @@ class SwissTournamentManager
 
         return $participants;
     }
+
+    public function arrangeRoundResultsByRound(array $roundResults)
+    {
+        $roundResultsByRound = array();
+
+        foreach ($roundResults as $roundResult) {
+            $roundNumber = $roundResult->getRoundId();
+            if (!array_key_exists($roundNumber, $roundResultsByRound)) {
+                $roundResultsByRound[$roundNumber] = [];
+            }
+
+            $roundResultsByRound[$roundNumber][] = $roundResult;
+        }
+    }
 }

@@ -193,6 +193,7 @@ class TournamentController extends Controller
     public function setSwissTournamentResultsAction(Request $request, SwissTournamentManager $swissTournamentManager, $tournamentId)
     {
         $roundResults = $this->getDoctrine()->getRepository(RoundResult::class)->findBy(['tournament' => $tournamentId]);
+        $roundsWithResults = $this->getDoctrine()->getRepository(Round::class)->getRoundsWithResultsByTournament($tournamentId);
 
         $participants = $this->swissTournamentManager->getParticipantsDataByTournamentId($tournamentId);
 
@@ -200,6 +201,7 @@ class TournamentController extends Controller
             'round_results' => $roundResults,
             'participants' => $participants,
             'tournament_id' => $tournamentId,
+            'results_by_round' => $this->swissTournamentManager->arrangeRoundResultsByRound($roundResults)
         ]);
     }
 
