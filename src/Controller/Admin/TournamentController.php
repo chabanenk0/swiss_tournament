@@ -10,6 +10,7 @@ use App\Exceptions\UndefinedPairSystemCode;
 use App\Form\Type\DeleteType;
 use App\Form\Type\PairRoundResultType;
 use App\Form\Type\ParticipantType;
+use App\Form\Type\RoundResultType;
 use App\Form\Type\SwissResultType;
 use App\Repository\ParticipantRepository;
 use App\Repository\RoundResultRepository;
@@ -20,6 +21,7 @@ use App\Services\SwissTournamentManager;
 use App\Services\SwissPairingSystem;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use App\Services\RoundTournamentManager;
 
@@ -190,26 +192,78 @@ class TournamentController extends Controller
             );
     }
 
-    public function setSwissTournamentResultsAction(Request $request, SwissTournamentManager $swissTournamentManager, $tournamentId)
+    /**
+     * @param Request $request
+     * @param $tournamentId
+     * @return \Symfony\Component\HttpFoundation\Response\
+     */
+    public function swissTournamentResultsAction(Request $request, $tournamentId)
     {
+        if ($request->isMethod('POST')) {
+            $roundResultId = $request->get('id');
+            dump($_REQUEST);
+            $roundResult = $this->getDoctrine()->getRepository(RoundResult::class)->findOneById($roundResultId);
+
+            $form = $this->createForm(SwissResultType::class, $roundResult);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+            }
+        }
+
+        /** @var Participant[] $participants */
+        $participants = $this->participantRepository->findBy(['tournament' => $tournamentId]);
+        /** @var RoundResult[] $roundResults */
         $roundResults = $this->getDoctrine()->getRepository(RoundResult::class)->findBy(['tournament' => $tournamentId]);
-        $roundsWithResults = $this->getDoctrine()->getRepository(Round::class)->getRoundsWithResultsByTournament($tournamentId);
+        $roundsData = [];
 
-        $participants = $this->swissTournamentManager->getParticipantsDataByTournamentId($tournamentId);
+        foreach ($roundResults as $roundResult) {
+            $round = $roundResult->getRound();
+            $roundNumber = $round->getNumber();
+            if (!array_key_exists($roundNumber, $roundsData)) {
+                $roundsData[$roundNumber] = [
+                    'round' => $round,
+                    'results' => []
+                ];
+            }
 
-        return $this->render('admin/save_results.html.twig', [
-            'round_results' => $roundResults,
+            $blackParticipant = $roundResult->getBlackParticipant();
+            $whiteParticipant = $roundResult->getWhiteParticipant();
+
+            $roundResultFormView = $this->createForm(RoundResultType::class, $roundResult)
+                ->add('Add', SubmitType::class, [
+                    'label' => 'Save',
+                ])->createView();
+
+            $roundsData[$roundNumber]['results'][$blackParticipant->getParticipantOrder()] = [
+                'partner' => $whiteParticipant,
+                'result' => $roundResult,
+                'form' => $roundResultFormView
+            ];
+            $roundsData[$roundNumber]['results'][$whiteParticipant->getParticipantOrder()] = [
+                'partner' => $blackParticipant,
+                'result' => $roundResult,
+                'form' => $roundResultFormView
+            ];
+        }
+
+        return $this->render('admin/swiss_system_results.html.twig', [
             'participants' => $participants,
-            'tournament_id' => $tournamentId,
-            'results_by_round' => $this->swissTournamentManager->arrangeRoundResultsByRound($roundResults)
+            'rounds_data' => $roundsData,
+            'tournament_id' => $tournamentId
         ]);
     }
 
-    public function setSwissRoundResultsAction(Request $request, $tournamentId, $roundId)
+    public function swissRoundResultsAction(Request $request, $tournamentId, $roundId)
     {
         $form = $this->createForm(SwissResultType::class);
         $form->handleRequest($request);
 
+        /** @var Participant[] $participants */
+        $participants = $this->participantRepository->findBy(['tournament' => $tournamentId]);
+        /** @var RoundResult[] $roundResults */
         $roundResults = $this->getDoctrine()->getRepository(RoundResult::class)->findBy(['round' => $roundId]);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -224,18 +278,8 @@ class TournamentController extends Controller
             $em->persist($roundResult);
             $em->flush();
         }
-        $participants = [];
 
-        $i = 0;
-        foreach ($roundResults as $roundResult) {
-
-            $participants[$i]['black_participant'] = $this->getDoctrine()->getRepository(Participant::class)->find($roundResult->getBlackParticipant()->getId());
-            $participants[$i]['white_participant'] = $this->getDoctrine()->getRepository(Participant::class)->find($roundResult->getWhiteParticipant()->getId());
-            $participants[$i]['result'] = $roundResult->getResult();
-            $i++;
-        }
-
-        return $this->render('admin/save_round_results.html.twig', [
+        return $this->render('admin/swiss_system_round_results.html.twig', [
             'round_id' => $roundId,
             'tournament_id' => $tournamentId,
             'participants' => $participants,

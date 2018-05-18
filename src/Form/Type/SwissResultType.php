@@ -4,35 +4,55 @@ namespace App\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use App\Entity\RoundResult;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class SwissResultType extends AbstractType
 {
-    private $roundResult;
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
 
-    public function __construct()
+    public function __construct(TranslatorInterface $translator)
     {
-        $this->roundResult = new RoundResult();
+        $this->translator = $translator;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('id', HiddenType::class)
+            ->add('whiteParticipantLastName', TextType::class, [
+                'label' => $this->translator->trans('White participant last name'),
+                'attr' => [
+                    'readonly' => true
+                ]
+            ])
+            ->add('blackParticipantLastName', TextType::class, [
+                'label' => $this->translator->trans('Black participant last name'),
+                'attr' => [
+                    'readonly' => true
+                ]
+            ])
             ->add('result', ChoiceType::class, [
                 'choices' => [
-                    'Black win' => $this->roundResult::RESULT_BLACK_WIN,
-                    'Draw' => $this->roundResult::RESULT_DRAW,
-                    'White win' => $this->roundResult::RESULT_WHITE_WIN,
+                    $this->translator->trans('White win') => RoundResult::RESULT_WHITE_WIN,
+                    $this->translator->trans('Black win') => RoundResult::RESULT_BLACK_WIN,
+                    $this->translator->trans('Draw') => RoundResult::RESULT_DRAW
                 ],
-                'label' => 'Round result',
-            ])
-            ->add('save', SubmitType::class, [
-                'label' => 'Save'
-            ])
-        ->add('round', TextType::class);
+                'placeholder' => $this->translator->trans('Select the winner'),
+                'label' => $this->translator->trans('Round result')
+            ]);
+    }
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => RoundResult::class
+        ]);
     }
 }
-
