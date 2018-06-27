@@ -5,6 +5,7 @@ namespace App\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use App\Entity\RoundResult;
@@ -47,6 +48,9 @@ class SwissResultType extends AbstractType
                 ],
                 'placeholder' => $this->translator->trans('Select the winner'),
                 'label' => $this->translator->trans('Round result')
+            ])
+            ->add('Add', SubmitType::class, [
+                'label' => 'Save',
             ]);
     }
     public function configureOptions(OptionsResolver $resolver)

@@ -10,7 +10,6 @@ use App\Exceptions\UndefinedPairSystemCode;
 use App\Form\Type\DeleteType;
 use App\Form\Type\PairRoundResultType;
 use App\Form\Type\ParticipantType;
-use App\Form\Type\RoundResultType;
 use App\Form\Type\SwissResultType;
 use App\Repository\ParticipantRepository;
 use App\Repository\RoundResultRepository;
@@ -200,14 +199,14 @@ class TournamentController extends Controller
     public function swissTournamentResultsAction(Request $request, $tournamentId)
     {
         if ($request->isMethod('POST')) {
-            $roundResultId = $request->get('id');
-            dump($_REQUEST);
+            $roundResultData = $request->get('swiss_result');
+            $roundResultId = isset($roundResultData['id']) ? $roundResultData['id'] : null;
             $roundResult = $this->getDoctrine()->getRepository(RoundResult::class)->findOneById($roundResultId);
 
             $form = $this->createForm(SwissResultType::class, $roundResult);
 
             $form->handleRequest($request);
-
+;
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->getDoctrine()->getManager()->flush();
             }
@@ -232,10 +231,7 @@ class TournamentController extends Controller
             $blackParticipant = $roundResult->getBlackParticipant();
             $whiteParticipant = $roundResult->getWhiteParticipant();
 
-            $roundResultFormView = $this->createForm(RoundResultType::class, $roundResult)
-                ->add('Add', SubmitType::class, [
-                    'label' => 'Save',
-                ])->createView();
+            $roundResultFormView = $this->createForm(SwissResultType::class, $roundResult)->createView();
 
             $roundsData[$roundNumber]['results'][$blackParticipant->getParticipantOrder()] = [
                 'partner' => $whiteParticipant,
