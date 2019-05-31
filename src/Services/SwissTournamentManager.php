@@ -12,11 +12,4 @@ class SwissTournamentManager
     {
         $this->participantRepository = $participantRepository;
     }
-
-    public function getParticipantsDataByTournamentId($tournamentId)
-    {
-        $participants = $this->participantRepository->findBy(['tournament' => $tournamentId]);
-
-        return $participants;
-    }
 }

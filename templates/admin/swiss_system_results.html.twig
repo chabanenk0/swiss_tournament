@@ -1,0 +1,95 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('build/tournament.css') }}">
+{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="{{ asset('build/tournament.css') }}">
+    <div class="row list_of_participant">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <table>
+                <tr>
+                    <td>{{ 'Place'|trans }}</td>
+                    <td>{{ 'Full name'|trans }}</td>
+                    <td>{{ 'Birth date'|trans }}</td>
+                    <td>{{ 'City'|trans }}</td>
+                    <td>{{ 'Federation'|trans }}</td>
+                    <td>{{ 'Rating'|trans }}</td>
+                    <td>{{ 'Rank'|trans }}</td>
+                    {% for round_data in rounds_data %}
+                        {% set round = round_data.round %}
+                        <td><a href="{{ path('set_round_results', {'tournamentId' : tournament_id, 'roundId' : round.id}) }}">{{ round.id }}</a></td>
+                    {% endfor %}
+                </tr>
+            {% for participant in participants %}
+                {% set participantLineOrder = participant.participantOrder %}
+                <tr>
+                    <td>
+                        {{ participant.participantOrder }}
+                    </td>
+                    <td>
+                        {{ participant.player.firstName }}
+                        {{ participant.player.lastName }}
+                    </td>
+                    <td>
+                        {{ participant.player.birthDate|date }}
+                    </td>
+                    <td>
+                        {{ participant.player.city }}
+                    </td>
+                    <td>
+                        {{ participant.player.federation }}
+                    </td>
+                    <td>
+                        1237
+                    </td>
+                    <td>
+                        grs
+                    </td>
+                    {% for round_data in rounds_data %}
+                        {% set roundResult = round_data.results[participantLineOrder].result %}
+                        {% set partnerParticipant = round_data.results[participantLineOrder].partner %}
+                        {% set roundResultEditForm = round_data.results[participantLineOrder].form %}
+                        <td data-line-number="{{ participantLineOrder }}"
+                            data-round-result-id="{{ roundResult.id }}"
+                            data-white-participant-name="{{ roundResult.whiteParticipant.player.lastName }}"
+                            data-black-participant-name="{{ roundResult.blackParticipant.player.lastName }}"
+                        >
+                            <span data-toggle="modal" data-target="#result-edit-{{ roundResult.id }}" >
+                                {{ partnerParticipant.participantOrder }}/{{ roundResult.result }}
+                            </span>
+                            <!-- Modal -->
+                            <div class="modal fade" id="result-edit-{{ roundResult.id }}" tabindex="-1" role="dialog" aria-label="Result edit" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Round Result Edit</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {{ form_start(roundResultEditForm) }}
+                                            {{ form_widget(roundResultEditForm) }}
+                                            {{ form_end(roundResultEditForm) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </table>
+            <div class="row">
+                <div class="col-md-12">
+                    <a role="button" class="btn btn-primary" href="{{ path('easyadmin', {entity: 'Tournament', action: 'edit', id: tournament_id}) }}" alt="{{ 'Torunament data edit'|trans }}">{{ 'Torunament data edit'|trans }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -12,12 +12,12 @@ delete_player_tournament:
     controller: App\Controller\Admin\TournamentController::deletePlayerTournamentAction
 
 set_tournament_results:
-    path: admin/tournament/set_tournament_results/{tournamentId}
-    controller: App\Controller\Admin\TournamentController::setSwissTournamentResultsAction
+    path: admin/tournament/{tournamentId}/swiss_system/results
+    controller: App\Controller\Admin\TournamentController::swissTournamentResultsAction
 
 set_round_results:
-    path: admin/tournament/set_round_results/{tournamentId}/{roundId}
-    controller: App\Controller\Admin\TournamentController::setSwissRoundResultsAction
+    path: admin/tournament/{tournamentId}/swiss_system/result/round/{roundId}
+    controller: App\Controller\Admin\TournamentController::swissRoundResultsAction
 
 round_system_tournament_results:
     path: admin/tournament/{id}/round_system/results
